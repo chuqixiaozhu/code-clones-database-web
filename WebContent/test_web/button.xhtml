@@ -10,6 +10,12 @@
 <h:body>
 <h:form>
 <h:commandButton value="Submit"></h:commandButton>
+<br/>
+<h:outputLink value="list-students.xhtml">Back to List</h:outputLink><br/>
+<h:outputLink value="../index.xhtml" onclick="if (confirm('Are you OK?')) {return true;} else {return false;}">
+<!-- <h:outputLink value="index.xtml" onclick="if (!confirm('Are you OK?')) return false"> -->
+Have fun!
+</h:outputLink>
 </h:form>
 </h:body>
 </html>

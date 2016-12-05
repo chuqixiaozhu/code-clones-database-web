@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<f:metadata>
+	<f:event type="preRenderView" listener="#{projectController.loadProjects()}"/>
+</f:metadata>
+
+<h:head>
+	<title>Code Clones Database System</title>
+</h:head>
+
+<h:body>
+<h1>Code Clones List</h1>
+<hr/>
+<h:form>
+<p>#1 Project Name:
+<h:selectOneMenu value="#{projectController.project1SelectedName}">
+	<f:selectItems value="#{projectController.projectsNames}" var="tempName"
+	itemLabel="#{tempName}" itemValue="#{tempName}" />
+	<f:ajax listener="#{projectController.handleProject1SelectedChange}" render="project1_text"/>
+</h:selectOneMenu>
+
+<h:outputLabel value="In one project">
+	<h:selectBooleanCheckbox title="In one project" 
+							value="#{projectController.inOneProjectChecked}">
+		<f:ajax event="change" render="project2SelectOneMenu"/>
+	</h:selectBooleanCheckbox>
+</h:outputLabel>
+</p>
+<!-- <h:commandButton value="Find" action="clones_list"/> -->
+<br/>
+<h:selectOneMenu value="#{projectController.project2SelectedName}"
+				disabled="#{projectController.inOneProjectChecked}"
+				id="project2SelectOneMenu">
+	<f:selectItems value="#{projectController.projectsNames}" var="tempName"
+	itemLabel="#{tempName}" itemValue="#{tempName}" />
+</h:selectOneMenu>
+<h:outputText id="project1_text" value="#{projectController.project1SelectedName}"/>
+</h:form>
+
+</h:body>
+
+</html>

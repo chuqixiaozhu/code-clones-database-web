@@ -5,13 +5,17 @@ import javax.faces.bean.ManagedBean;
 @ManagedBean
 public class CodeClone {
 	private int cloneID;
-	private int projectID1;
-	private int revisionID1;
+//	private int projectID1;
+//	private int revisionID1;
+	private String project1Name;
+	private String revision1Name;
 	private String fileName1;
 	private int startLine1;
 	private int endLine1;
-	private int projectID2;
-	private int revisionID2;
+//	private int projectID2;
+//	private int revisionID2;
+	private String project2Name;
+	private String revision2Name;
 	private String fileName2;
 	private int startLine2;
 	private int endLine2;
@@ -19,23 +23,66 @@ public class CodeClone {
 	
 	public CodeClone() {
 	}
+	
 
-	public CodeClone(int cloneID, int projectID1, int revisionID1, String fileName1, int startLine1, int endLine1,
-			int projectID2, int revisionID2, String fileName2, int startLine2, int endLine2, int type) {
+	public CodeClone(int cloneID, String project1Name, String revision1Name, String fileName1, int startLine1,
+			int endLine1, String project2Name, String revision2Name, String fileName2, int startLine2, int endLine2,
+			int type) {
 		super();
 		this.cloneID = cloneID;
-		this.projectID1 = projectID1;
-		this.revisionID1 = revisionID1;
+		this.project1Name = project1Name;
+		this.revision1Name = revision1Name;
 		this.fileName1 = fileName1;
 		this.startLine1 = startLine1;
 		this.endLine1 = endLine1;
-		this.projectID2 = projectID2;
-		this.revisionID2 = revisionID2;
+		this.project2Name = project2Name;
+		this.revision2Name = revision2Name;
 		this.fileName2 = fileName2;
 		this.startLine2 = startLine2;
 		this.endLine2 = endLine2;
 		this.type = type;
 	}
+	
+
+	public String getProject1Name() {
+		return project1Name;
+	}
+
+
+	public void setProject1Name(String project1Name) {
+		this.project1Name = project1Name;
+	}
+
+
+	public String getRevision1Name() {
+		return revision1Name;
+	}
+
+
+	public void setRevision1Name(String revision1Name) {
+		this.revision1Name = revision1Name;
+	}
+
+
+	public String getProject2Name() {
+		return project2Name;
+	}
+
+
+	public void setProject2Name(String project2Name) {
+		this.project2Name = project2Name;
+	}
+
+
+	public String getRevision2Name() {
+		return revision2Name;
+	}
+
+
+	public void setRevision2Name(String revision2Name) {
+		this.revision2Name = revision2Name;
+	}
+
 
 	public int getCloneID() {
 		return cloneID;
@@ -43,22 +90,6 @@ public class CodeClone {
 
 	public void setCloneID(int cloneID) {
 		this.cloneID = cloneID;
-	}
-
-	public int getProjectID1() {
-		return projectID1;
-	}
-
-	public void setProjectID1(int projectID1) {
-		this.projectID1 = projectID1;
-	}
-
-	public int getRevisionID1() {
-		return revisionID1;
-	}
-
-	public void setRevisionID1(int revisionID1) {
-		this.revisionID1 = revisionID1;
 	}
 
 	public String getFileName1() {
@@ -83,22 +114,6 @@ public class CodeClone {
 
 	public void setEndLine1(int endLine1) {
 		this.endLine1 = endLine1;
-	}
-
-	public int getProjectID2() {
-		return projectID2;
-	}
-
-	public void setProjectID2(int projectID2) {
-		this.projectID2 = projectID2;
-	}
-
-	public int getRevisionID2() {
-		return revisionID2;
-	}
-
-	public void setRevisionID2(int revisionID2) {
-		this.revisionID2 = revisionID2;
 	}
 
 	public String getFileName2() {
@@ -133,12 +148,4 @@ public class CodeClone {
 		this.type = type;
 	}
 
-	@Override
-	public String toString() {
-		return "CodeClone [cloneID=" + cloneID + ", projectID1=" + projectID1 + ", revisionID1=" + revisionID1
-				+ ", fileName1=" + fileName1 + ", startLine1=" + startLine1 + ", endLine1=" + endLine1 + ", projectID2="
-				+ projectID2 + ", revisionID2=" + revisionID2 + ", fileName2=" + fileName2 + ", startLine2="
-				+ startLine2 + ", endLine2=" + endLine2 + ", type=" + type + "]";
-	}
-	
 }

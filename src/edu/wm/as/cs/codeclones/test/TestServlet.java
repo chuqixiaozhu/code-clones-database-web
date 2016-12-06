@@ -17,6 +17,10 @@ import javax.sql.DataSource;
 @WebServlet("/TestServlet")
 public class TestServlet extends HttpServlet {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Resource(name = "jdbc/code_clones")
 	private DataSource dataSource;
 

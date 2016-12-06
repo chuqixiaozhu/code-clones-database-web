@@ -8,6 +8,7 @@
 
 <f:metadata>
 	<f:event type="preRenderView" listener="#{projectController.loadProjects()}"/>
+	<f:event type="preRenderView" listener="#{cloneController.loadClones()}"/>
 </f:metadata>
 
 <h:head>
@@ -18,29 +19,69 @@
 <h1>Code Clones List</h1>
 <hr/>
 <h:form>
-<p>#1 Project Name:
-<h:selectOneMenu value="#{projectController.project1SelectedName}">
-	<f:selectItems value="#{projectController.projectsNames}" var="tempName"
-	itemLabel="#{tempName}" itemValue="#{tempName}" />
-	<f:ajax listener="#{projectController.handleProject1SelectedChange}" render="project1_text"/>
-</h:selectOneMenu>
+<h:panelGrid columns="3">
+	<h:outputLabel for="project1SelectOneMenu" value="#1 Project Name:" />
+	<h:outputLabel for="project2SelectOneMenu" value="#2 Project Name:" />
+	<h:panelGrid />
+	
+	<h:selectOneMenu id="project1SelectOneMenu"
+					 value="#{projectController.project1SelectedName}">
+		<f:selectItems value="#{projectController.projectsNames}"
+			var="tempName" itemLabel="#{tempName}" itemValue="#{tempName}" />
+		<f:ajax event="change" render="project1_text" />
+	</h:selectOneMenu>
+	<h:selectOneMenu id="project2SelectOneMenu"
+					value="#{projectController.project2SelectedName}"
+		disabled="#{projectController.inOneProjectChecked}">
+		<f:selectItems value="#{projectController.projectsNames}"
+			var="tempName" itemLabel="#{tempName}" itemValue="#{tempName}" />
+		<f:ajax event="change" render="project2_text" />
+	</h:selectOneMenu>
+	<h:outputLabel for="ifOneProjectCheckbox" value="In one project">
+		<h:selectBooleanCheckbox id="ifOneProjectCheckbox" title="In one project"
+			value="#{projectController.inOneProjectChecked}">
+			<f:ajax event="change" render="project2SelectOneMenu" />
+		</h:selectBooleanCheckbox>
+	</h:outputLabel>
+</h:panelGrid>
 
-<h:outputLabel value="In one project">
-	<h:selectBooleanCheckbox title="In one project" 
-							value="#{projectController.inOneProjectChecked}">
-		<f:ajax event="change" render="project2SelectOneMenu"/>
-	</h:selectBooleanCheckbox>
-</h:outputLabel>
-</p>
-<!-- <h:commandButton value="Find" action="clones_list"/> -->
-<br/>
-<h:selectOneMenu value="#{projectController.project2SelectedName}"
-				disabled="#{projectController.inOneProjectChecked}"
-				id="project2SelectOneMenu">
-	<f:selectItems value="#{projectController.projectsNames}" var="tempName"
-	itemLabel="#{tempName}" itemValue="#{tempName}" />
-</h:selectOneMenu>
+<h:panelGrid columns="2">
 <h:outputText id="project1_text" value="#{projectController.project1SelectedName}"/>
+<h:outputText id="project2_text" value="#{projectController.project2SelectedName}"/>
+</h:panelGrid>
+
+<h:dataTable id="cloneDataTable"
+			value="#{cloneController.clones}" var="tempClone">
+	<h:column>
+		<f:facet name="header">Project 1</f:facet>
+		#{tempClone.project1Name}
+	</h:column>
+	<h:column>
+		<f:facet name="header">Revision 1</f:facet>
+		#{tempClone.revision1Name}
+	</h:column>
+	<h:column>
+		<f:facet name="header">File 1</f:facet>
+		#{tempClone.fileName1}
+	</h:column>
+	<h:column>
+		<f:facet name="header">Project 2</f:facet>
+		<h:outputText value="#{tempClone.project2Name}"/>
+	</h:column>
+	<h:column>
+		<f:facet name="header">Revision 2</f:facet>
+		#{tempClone.revision2Name}
+	</h:column>
+	<h:column>
+		<f:facet name="header">File 2</f:facet>
+		#{tempClone.fileName2}
+	</h:column>
+	<h:column>
+		<f:facet name="header"></f:facet>
+		<h:commandLink value="View" action="#{cloneController.loadClone(tempClone.cloneID)}"/>
+	</h:column>
+</h:dataTable>
+
 </h:form>
 
 </h:body>

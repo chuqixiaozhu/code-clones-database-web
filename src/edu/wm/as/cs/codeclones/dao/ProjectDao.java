@@ -14,7 +14,6 @@ import javax.sql.DataSource;
 
 import edu.wm.as.cs.codeclones.entities.Project;
 
-//import com.mysql.jdbc.Connection;
 
 public class ProjectDao {
 	private static ProjectDao instance;
@@ -43,9 +42,9 @@ public class ProjectDao {
 		return conn;
 	}
 	
-	private void close(Connection conn, Statement stmt) {
-		close(conn, stmt, null);
-	}
+//	private void close(Connection conn, Statement stmt) {
+//		close(conn, stmt, null);
+//	}
 	
 	private void close(Connection conn, Statement stmt, ResultSet rs) {
 		try {
@@ -64,7 +63,6 @@ public class ProjectDao {
 	}
 	
 	public List<Project> getProjects() throws Exception {
-		List<Project> projects = new ArrayList<>();
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -73,6 +71,7 @@ public class ProjectDao {
 			String sql = "select * from Project order by projectName";
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
+			List<Project> projects = new ArrayList<>();
 			while (rs.next()) {
 				int projectID = rs.getInt("projectID");
 				String projectName = rs.getString("projectName");
@@ -89,4 +88,17 @@ public class ProjectDao {
 			close(conn, stmt, rs);
 		}
 	}
+//	
+//	public Project getProject() throws Exception {
+//		Connection conn = null;
+//		Statement stmt = null;
+//		ResultSet rs = null;
+//		try {
+//			conn = getConnection();
+//			String sql = "select * from Project order by projectName";
+//			stmt = conn.createStatement();
+//			rs = stmt.executeQuery(sql);
+//			Project theClone = new
+//		}
+//	}
 }

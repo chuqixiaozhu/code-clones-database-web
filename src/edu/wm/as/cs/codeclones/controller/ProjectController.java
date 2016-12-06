@@ -64,10 +64,10 @@ public class ProjectController {
 //		project_selected = event.getNewValue();
 //		System.out.println(project_selected);//test
 //	}
-	public void handleProject1SelectedChange() {
+//	public void handleProject1SelectedChange() {
 //		this.project1SelectedName = (String)
 //		System.out.println(project1SelectedName);
-	}
+//	}
 
 //	public Project getProjectSelected() {
 //		return projectSelected;

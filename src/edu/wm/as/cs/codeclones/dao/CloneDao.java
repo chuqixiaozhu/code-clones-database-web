@@ -110,7 +110,7 @@ public class CloneDao {
 		}
 	}
 	
-	public CodeClone getClone(int cloneID) throws Exception {
+	public CodeClone getCloneByCloneID(int cloneID) throws Exception {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -156,4 +156,6 @@ public class CloneDao {
 			close(conn, stmt, rs);
 		}
 	}
+	
+//	public List<CodeClone> getClonesBy2ProjectName()
 }

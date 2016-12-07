@@ -9,6 +9,8 @@ CREATE TABLE IF NOT EXISTS `Project`(
   `authorName` varchar(140) DEFAULT NULL,
   `submitTime` timestamp DEFAULT CURRENT_TIMESTAMP
     ON UPDATE CURRENT_TIMESTAMP,
+  `detectorName` varchar(140) DEFAULT NULL,
+  `configuration` varchar(1024) DEFAULT NULL,
 
   PRIMARY KEY (`projectID`),
   UNIQUE (`projectName`),
@@ -80,5 +82,21 @@ CREATE TABLE IF NOT EXISTS `CodeClone` (
   	ON UPDATE CASCADE ON DELETE CASCADE,
   FOREIGN KEY (`revision2Name`)
   	REFERENCES `Revision` (`revisionName`)
+  	ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+DROP TABLE IF EXISTS `Evaluation` CASCADE;
+CREATE TABLE IF NOT EXISTS `Evaluation`(
+  `evaluationID` int NOT NULL AUTO_INCREMENT,
+  `cloneID` int NOT NULL,
+  `type` int DEFAULT NULL,
+  `similarity` float DEFAULT NULL,
+  `truePositive` Boolean DEFAULT NULL,
+  `score` float DEFAULT NULL,
+
+  PRIMARY KEY (`evaluationID`),
+  INDEX index_evaluation (`evaluationID`),
+  FOREIGN KEY (`cloneID`)
+  	REFERENCES `CodeClone` (`cloneID`)
   	ON UPDATE CASCADE ON DELETE CASCADE
 );

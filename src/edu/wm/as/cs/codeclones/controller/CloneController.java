@@ -1,5 +1,6 @@
 package edu.wm.as.cs.codeclones.controller;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -35,8 +36,7 @@ public class CloneController {
 	}
 	
 	public void loadClones() {
-		logger.info("Loading projects");
-//		projects.clear();
+		logger.info("Loading clones");
 		clones.clear();
 		try {
 			clones = cloneDao.getClones();
@@ -54,7 +54,7 @@ public class CloneController {
 		logger.info("loading clone: " + cloneID);
 		
 		try {
-			CodeClone theClone = cloneDao.getClone(cloneID);
+			CodeClone theClone = cloneDao.getCloneByCloneID(cloneID);
 			ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();		
 
 			Map<String, Object> requestMap = externalContext.getRequestMap();
@@ -71,4 +71,20 @@ public class CloneController {
 		return "view_clone";
 	}
 	
+	public void setProject1Name(String project1Name) {
+		logger.info("setProject1Name: " + project1Name);
+		this.loadClones();
+		if (project1Name.equals("")){
+			return;
+		}
+		if (project1Name.equals("ALL")) {
+			return;
+		}
+		for (Iterator<CodeClone> iter = clones.iterator(); iter.hasNext();) {
+			String name = iter.next().getProject1Name();
+			if (!name.equals(project1Name)) {
+				iter.remove();
+			}
+		}
+	}
 }

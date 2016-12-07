@@ -10,7 +10,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
-
 import edu.wm.as.cs.codeclones.dao.ProjectDao;
 import edu.wm.as.cs.codeclones.entities.Project;
 
@@ -105,6 +104,5 @@ public class ProjectController {
 	public void setProject2SelectedName(String project2SelectedName) {
 		this.project2SelectedName = project2SelectedName;
 	}
-	
 	
 }

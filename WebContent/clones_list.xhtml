@@ -7,9 +7,12 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <f:metadata>
-	<f:event type="preRenderView" listener="#{projectController.loadProjects()}"/>
-	<f:event type="preRenderView" listener="#{cloneController.loadClones()}"/>
+	<f:event type="preRenderView" listener="#{projectController.loadProjects}"/>
+<!-- 	<f:event type="preRenderView" listener="#{cloneController.loadClones}"/> -->
+<!-- 	<f:viewAction action="#{projectController.loadProjects}" /> -->
+	<f:viewAction action="#{cloneController.loadClones}" />
 </f:metadata>
+
 
 <h:head>
 	<title>Code Clones Database System</title>
@@ -28,15 +31,18 @@
 					 value="#{projectController.project1SelectedName}">
 		<f:selectItems value="#{projectController.projectsNames}"
 			var="tempName" itemLabel="#{tempName}" itemValue="#{tempName}" />
-		<f:ajax event="change" render="project1_text" />
+<!-- 		<f:ajax event="click" -->
+<!-- 				render="cloneDataTable" /> -->
 	</h:selectOneMenu>
+	
 	<h:selectOneMenu id="project2SelectOneMenu"
 					value="#{projectController.project2SelectedName}"
 		disabled="#{projectController.inOneProjectChecked}">
 		<f:selectItems value="#{projectController.projectsNames}"
 			var="tempName" itemLabel="#{tempName}" itemValue="#{tempName}" />
-		<f:ajax event="change" render="project2_text" />
+<!-- 		<f:ajax event="change" render="project2_text" /> -->
 	</h:selectOneMenu>
+	
 	<h:outputLabel for="ifOneProjectCheckbox" value="In one project">
 		<h:selectBooleanCheckbox id="ifOneProjectCheckbox" title="In one project"
 			value="#{projectController.inOneProjectChecked}">
@@ -44,10 +50,12 @@
 		</h:selectBooleanCheckbox>
 	</h:outputLabel>
 </h:panelGrid>
-
+<p>
+<h:commandButton value="Show" update="cloneDataTable" action="#{cloneController.setProject1Name(projectController.project1SelectedName)}"/>
+</p>
 <h:panelGrid columns="2">
-<h:outputText id="project1_text" value="#{projectController.project1SelectedName}"/>
-<h:outputText id="project2_text" value="#{projectController.project2SelectedName}"/>
+<!-- <h:outputText id="project1_text" value="#{projectController.project1SelectedName}"/> -->
+<!-- <h:outputText id="project2_text" value="#{projectController.project2SelectedName}"/> -->
 </h:panelGrid>
 
 <h:dataTable id="cloneDataTable"

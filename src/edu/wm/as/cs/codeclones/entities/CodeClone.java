@@ -148,4 +148,13 @@ public class CodeClone {
 		this.type = type;
 	}
 
+
+	@Override
+	public String toString() {
+		return "CodeClone [cloneID=" + cloneID + ", project1Name=" + project1Name + ", revision1Name=" + revision1Name
+				+ ", fileName1=" + fileName1 + ", startLine1=" + startLine1 + ", endLine1=" + endLine1
+				+ ", project2Name=" + project2Name + ", revision2Name=" + revision2Name + ", fileName2=" + fileName2
+				+ ", startLine2=" + startLine2 + ", endLine2=" + endLine2 + ", type=" + type + "]";
+	}
+
 }

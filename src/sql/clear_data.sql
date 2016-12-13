@@ -1,5 +1,7 @@
-use `code_clones`;
+USE `code_clones`;
 
-delete from CodeClone;
-delete from Revision;
-delete from Project;
+DELETE FROM Evaluation;
+DELETE FROM CodeClone;
+DELETE FROM Detector;
+DELETE FROM Revision;
+DELETE FROM Project;

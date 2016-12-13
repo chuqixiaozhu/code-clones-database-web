@@ -9,8 +9,6 @@ CREATE TABLE IF NOT EXISTS `Project`(
   `authorName` varchar(140) DEFAULT NULL,
   `submitTime` timestamp DEFAULT CURRENT_TIMESTAMP
     ON UPDATE CURRENT_TIMESTAMP,
-  `detectorName` varchar(140) DEFAULT NULL,
-  `configuration` varchar(1024) DEFAULT NULL,
 
   PRIMARY KEY (`projectID`),
   UNIQUE (`projectName`),
@@ -38,6 +36,17 @@ CREATE TABLE IF NOT EXISTS `Revision` (
     ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+DROP TABLE IF EXISTS `Detector` CASCADE;
+CREATE TABLE IF NOT EXISTS `Detector` (
+  `detectorID` int NOT NULL AUTO_INCREMENT,
+  -- `projectID` int NOT NULL,
+  `detectorName` varchar(140) NOT NULL,
+  `configuration` varchar(1024) NOT NULL,
+
+  PRIMARY KEY (`detectorID`),
+  INDEX index_detector (`detectorID`)
+);
+
 DROP TABLE IF EXISTS `CodeClone` CASCADE;
 CREATE TABLE IF NOT EXISTS `CodeClone` (
   `cloneID` int NOT NULL AUTO_INCREMENT,
@@ -55,7 +64,8 @@ CREATE TABLE IF NOT EXISTS `CodeClone` (
   `fileName2` varchar(140) DEFAULT NULL,
   `startLine2` int DEFAULT NULL,
   `endLine2` int DEFAULT NULL,
-  `type` int DEFAULT NULL,
+  -- `type` int DEFAULT NULL,
+  `detectorID` int NOT NULL,
   
   PRIMARY KEY (`cloneID`),
   INDEX index_clone (`cloneID`),
@@ -82,7 +92,10 @@ CREATE TABLE IF NOT EXISTS `CodeClone` (
   	ON UPDATE CASCADE ON DELETE CASCADE,
   FOREIGN KEY (`revision2Name`)
   	REFERENCES `Revision` (`revisionName`)
-  	ON UPDATE CASCADE ON DELETE CASCADE
+  	ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (`detectorID`)
+    REFERENCES `Detector` (`detectorID`)
+    ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS `Evaluation` CASCADE;

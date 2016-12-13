@@ -87,7 +87,7 @@ public class CloneDao {
 				String fileName2 = rs.getString("fileName2");
 				int startLine2 = rs.getInt("startLine2");
 				int endLine2 = rs.getInt("endLine2");
-				int type = rs.getInt("type");
+				int detectorID = rs.getInt("detectorID");
 				
 				CodeClone tempClone = new CodeClone(cloneID,
 													project1Name,
@@ -100,7 +100,7 @@ public class CloneDao {
 													fileName2,
 													startLine2,
 													endLine2,
-													type);
+													detectorID);
 				clones.add(tempClone);
 			}
 			return clones;
@@ -134,7 +134,7 @@ public class CloneDao {
 				String fileName2 = rs.getString("fileName2");
 				int startLine2 = rs.getInt("startLine2");
 				int endLine2 = rs.getInt("endLine2");
-				int type = rs.getInt("type");
+				int detectorID = rs.getInt("detectorID");
 				
 				theClone = new CodeClone(cloneID,
 											project1Name,
@@ -147,7 +147,7 @@ public class CloneDao {
 											fileName2,
 											startLine2,
 											endLine2,
-											type);
+											detectorID);
 			} else {
 				throw new Exception("Could not find code clone id: " + cloneID);
 			}

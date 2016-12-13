@@ -19,7 +19,7 @@ public class CodeClone {
 	private String fileName2;
 	private int startLine2;
 	private int endLine2;
-	private int type;
+	private int detectorID;
 	
 	public CodeClone() {
 	}
@@ -27,7 +27,7 @@ public class CodeClone {
 
 	public CodeClone(int cloneID, String project1Name, String revision1Name, String fileName1, int startLine1,
 			int endLine1, String project2Name, String revision2Name, String fileName2, int startLine2, int endLine2,
-			int type) {
+			int detectorID) {
 		super();
 		this.cloneID = cloneID;
 		this.project1Name = project1Name;
@@ -40,7 +40,7 @@ public class CodeClone {
 		this.fileName2 = fileName2;
 		this.startLine2 = startLine2;
 		this.endLine2 = endLine2;
-		this.type = type;
+		this.detectorID = detectorID;
 	}
 	
 
@@ -140,12 +140,12 @@ public class CodeClone {
 		this.endLine2 = endLine2;
 	}
 
-	public int getType() {
-		return type;
+	public int getDetectorID() {
+		return detectorID;
 	}
 
-	public void setType(int type) {
-		this.type = type;
+	public void setDetectorID(int detectorID) {
+		this.detectorID = detectorID;
 	}
 
 
@@ -154,7 +154,7 @@ public class CodeClone {
 		return "CodeClone [cloneID=" + cloneID + ", project1Name=" + project1Name + ", revision1Name=" + revision1Name
 				+ ", fileName1=" + fileName1 + ", startLine1=" + startLine1 + ", endLine1=" + endLine1
 				+ ", project2Name=" + project2Name + ", revision2Name=" + revision2Name + ", fileName2=" + fileName2
-				+ ", startLine2=" + startLine2 + ", endLine2=" + endLine2 + ", type=" + type + "]";
+				+ ", startLine2=" + startLine2 + ", endLine2=" + endLine2 + ", detectorID=" + detectorID + "]";
 	}
 
 }

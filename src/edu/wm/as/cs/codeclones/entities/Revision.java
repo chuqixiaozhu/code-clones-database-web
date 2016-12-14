@@ -7,7 +7,8 @@ import javax.faces.bean.ManagedBean;
 @ManagedBean
 public class Revision {
 	private int revisionID;
-	private int projectID;
+//	private int projectID;
+	private String projectName;
 	private String revisionName;
 	private String authorName;
 	private java.util.Date submitTime;
@@ -15,10 +16,10 @@ public class Revision {
 	public Revision() {
 	}
 
-	public Revision(int revisionID, int projectID, String revisionName, String authorName, Date submitTime) {
+	public Revision(int revisionID, String projectName, String revisionName, String authorName, Date submitTime) {
 		super();
 		this.revisionID = revisionID;
-		this.projectID = projectID;
+		this.projectName = projectName;
 		this.revisionName = revisionName;
 		this.authorName = authorName;
 		this.submitTime = submitTime;
@@ -32,12 +33,12 @@ public class Revision {
 		this.revisionID = revisionID;
 	}
 
-	public int getProjectID() {
-		return projectID;
+	public String getProjectName() {
+		return projectName;
 	}
 
-	public void setProjectID(int projectID) {
-		this.projectID = projectID;
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
 	}
 
 	public String getRevisionName() {
@@ -66,7 +67,7 @@ public class Revision {
 
 	@Override
 	public String toString() {
-		return "Revision [revisionID=" + revisionID + ", projectID=" + projectID + ", revisionName=" + revisionName
+		return "Revision [revisionID=" + revisionID + ", projectName=" + projectName + ", revisionName=" + revisionName
 				+ ", authorName=" + authorName + ", submitTime=" + submitTime + "]";
 	}
 	

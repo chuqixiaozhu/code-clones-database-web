@@ -7,10 +7,15 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <f:metadata>
-	<f:event type="preRenderView" listener="#{projectController.loadProjects}"/>
+	<f:event type="preRenderView" listener="#{cloneController.loadProject1Names}"/>
+	<f:event type="preRenderView" listener="#{cloneController.loadProject2Names}"/>
+	<f:event type="preRenderView" listener="#{cloneController.loadRevision1Names}"/>
+	<f:event type="preRenderView" listener="#{cloneController.loadRevision2Names}"/>
 <!-- 	<f:event type="preRenderView" listener="#{cloneController.loadClones}"/> -->
 <!-- 	<f:viewAction action="#{projectController.loadProjects}" /> -->
-	<f:viewAction action="#{cloneController.loadClones}" />
+<!-- 	<f:viewAction action="#{cloneController.loadClones}"  -->
+	/>
+	
 </f:metadata>
 
 
@@ -22,41 +27,62 @@
 <h1>Code Clones List</h1>
 <hr/>
 <h:form>
-<h:panelGrid columns="3">
+<h:panelGrid columns="5">
 	<h:outputLabel for="project1SelectOneMenu" value="#1 Project Name:" />
-	<h:outputLabel for="project2SelectOneMenu" value="#2 Project Name:" />
-	<h:panelGrid />
-	
+		
 	<h:selectOneMenu id="project1SelectOneMenu"
-					 value="#{projectController.project1SelectedName}">
-		<f:selectItems value="#{projectController.projectsNames}"
+					 value="#{cloneController.project1SelectedName}">
+		<f:selectItems value="#{cloneController.project1Names}"
 			var="tempName" itemLabel="#{tempName}" itemValue="#{tempName}" />
-<!-- 		<f:ajax event="click" -->
-<!-- 				render="cloneDataTable" /> -->
 	</h:selectOneMenu>
 	
+	
+	
+	<h:outputLabel for="project2SelectOneMenu" value="#2 Project Name:" />
+	
 	<h:selectOneMenu id="project2SelectOneMenu"
-					value="#{projectController.project2SelectedName}"
-		disabled="#{projectController.inOneProjectChecked}">
-		<f:selectItems value="#{projectController.projectsNames}"
+					value="#{cloneController.project2SelectedName}"
+					disabled="#{cloneController.inOneProjectChecked}">
+		<f:selectItems value="#{cloneController.project2Names}"
 			var="tempName" itemLabel="#{tempName}" itemValue="#{tempName}" />
-<!-- 		<f:ajax event="change" render="project2_text" /> -->
 	</h:selectOneMenu>
 	
 	<h:outputLabel for="ifOneProjectCheckbox" value="In one project">
 		<h:selectBooleanCheckbox id="ifOneProjectCheckbox" title="In one project"
-			value="#{projectController.inOneProjectChecked}">
+			value="#{cloneController.inOneProjectChecked}">
 			<f:ajax event="change" render="project2SelectOneMenu" />
 		</h:selectBooleanCheckbox>
 	</h:outputLabel>
+	
+	<h:outputLabel for="revision1SelectOneMenu" value="#1 Revision Name:" />
+		
+	<h:selectOneMenu id="revision1SelectOneMenu"
+					 value="#{cloneController.revision1SelectedName}">
+		<f:selectItems value="#{cloneController.revision1Names}"
+			var="tempName" itemLabel="#{tempName}" itemValue="#{tempName}" />
+	</h:selectOneMenu>
+		
+	<h:outputLabel for="revision2SelectOneMenu" value="#2 Revision Name:" />
+	
+	<h:selectOneMenu id="revision2SelectOneMenu"
+					value="#{cloneController.revision2SelectedName}"
+					disabled="#{cloneController.inOneRevisionChecked}">
+		<f:selectItems value="#{cloneController.revision2Names}"
+			var="tempName" itemLabel="#{tempName}" itemValue="#{tempName}" />
+	</h:selectOneMenu>
+	
+	<h:outputLabel for="ifOneRevisionCheckbox" value="In one revision">
+		<h:selectBooleanCheckbox id="ifOneRevisionCheckbox" title="In one revision"
+			value="#{cloneController.inOneRevisionChecked}">
+			<f:ajax event="change" render="revision2SelectOneMenu" />
+		</h:selectBooleanCheckbox>
+	</h:outputLabel>
+	
 </h:panelGrid>
 <p>
-<h:commandButton value="Show" update="cloneDataTable" action="#{cloneController.setProject1Name(projectController.project1SelectedName)}"/>
+<h:commandButton id="showCommandButton" value="Show" 
+	action="#{cloneController.getClonesTable}"/>
 </p>
-<h:panelGrid columns="2">
-<!-- <h:outputText id="project1_text" value="#{projectController.project1SelectedName}"/> -->
-<!-- <h:outputText id="project2_text" value="#{projectController.project2SelectedName}"/> -->
-</h:panelGrid>
 
 <h:dataTable id="cloneDataTable"
 			value="#{cloneController.clones}" var="tempClone">
@@ -87,6 +113,10 @@
 	<h:column>
 		<f:facet name="header"></f:facet>
 		<h:commandLink value="View" action="#{cloneController.loadClone(tempClone.cloneID)}"/>
+		|
+		<h:commandLink value="Delete" 
+			action="#{cloneController.deteleCloneByCloneID(tempClone.cloneID)}">
+		</h:commandLink>
 	</h:column>
 </h:dataTable>
 

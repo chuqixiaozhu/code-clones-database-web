@@ -41,9 +41,9 @@ public class CloneDao {
 		return conn;
 	}
 	
-//	private void close(Connection conn, Statement stmt) {
-//		close(conn, stmt, null);
-//	}
+	private void close(Connection conn, Statement stmt) {
+		close(conn, stmt, null);
+	}
 	
 	private void close(Connection conn, Statement stmt, ResultSet rs) {
 		try {
@@ -87,7 +87,10 @@ public class CloneDao {
 				String fileName2 = rs.getString("fileName2");
 				int startLine2 = rs.getInt("startLine2");
 				int endLine2 = rs.getInt("endLine2");
-				int detectorID = rs.getInt("detectorID");
+//				int detectorID = rs.getInt("detectorID");
+				String detectorName = rs.getString("detectorName");
+				String configuration = rs.getString("configuration");
+				
 				
 				CodeClone tempClone = new CodeClone(cloneID,
 													project1Name,
@@ -100,7 +103,8 @@ public class CloneDao {
 													fileName2,
 													startLine2,
 													endLine2,
-													detectorID);
+													detectorName,
+													configuration);
 				clones.add(tempClone);
 			}
 			return clones;
@@ -109,6 +113,16 @@ public class CloneDao {
 			close(conn, stmt, rs);
 		}
 	}
+	
+//	public List<CodeClone> getClones(String project1Name,
+//										String project2Name,
+//										String revision1Name,
+//										String revision2Name) throws Exception {
+//		String project1Sql;
+//		String project2Sql;
+//		String revision1Sql;
+//		String revision2Sql;
+//	}
 	
 	public CodeClone getCloneByCloneID(int cloneID) throws Exception {
 		Connection conn = null;
@@ -134,7 +148,9 @@ public class CloneDao {
 				String fileName2 = rs.getString("fileName2");
 				int startLine2 = rs.getInt("startLine2");
 				int endLine2 = rs.getInt("endLine2");
-				int detectorID = rs.getInt("detectorID");
+//				int detectorID = rs.getInt("detectorID");
+				String detectorName = rs.getString("detectorName");
+				String configuration = rs.getString("configuration"); 
 				
 				theClone = new CodeClone(cloneID,
 											project1Name,
@@ -147,12 +163,113 @@ public class CloneDao {
 											fileName2,
 											startLine2,
 											endLine2,
-											detectorID);
+											detectorName,
+											configuration);
 			} else {
 				throw new Exception("Could not find code clone id: " + cloneID);
 			}
 			return theClone;
 		} finally {
+			close(conn, stmt, rs);
+		}
+	}
+	
+	public void deleteCloneByCloneID(int cloneID) throws Exception {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		try {
+			conn = getConnection();
+			String sql = "delete from CodeClone where cloneID=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, cloneID);
+			
+			stmt.execute();			
+		}
+		finally {
+			close (conn, stmt);
+		}
+	}
+	
+	public List<String> getProject1Names() throws Exception {
+		List<String> project1Names = new ArrayList<>();
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		try {
+			conn = getConnection();
+			String sql = "select distinct project1Name from CodeClone";
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				String project1Name = rs.getString("project1Name");
+				project1Names.add(project1Name);
+			}
+			return project1Names;
+		}
+		finally {
+			close(conn, stmt, rs);
+		}
+	}
+	
+	public List<String> getProject2Names() throws Exception {
+		List<String> project2Names = new ArrayList<>();
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		try {
+			conn = getConnection();
+			String sql = "select distinct project2Name from CodeClone";
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				String project2Name = rs.getString("project2Name");
+				project2Names.add(project2Name);
+			}
+			return project2Names;
+		}
+		finally {
+			close(conn, stmt, rs);
+		}
+	}
+	
+	public List<String> getRevision1Names() throws Exception {
+		List<String> revision1Names = new ArrayList<>();
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		try {
+			conn = getConnection();
+			String sql = "select distinct revision1Name from CodeClone";
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				String revision1Name = rs.getString("revision1Name");
+				revision1Names.add(revision1Name);
+			}
+			return revision1Names;
+		}
+		finally {
+			close(conn, stmt, rs);
+		}
+	}
+	
+	public List<String> getRevision2Names() throws Exception {
+		List<String> revision2Names = new ArrayList<>();
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		try {
+			conn = getConnection();
+			String sql = "select distinct revision2Name from CodeClone";
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				String revision2Name = rs.getString("revision2Name");
+				revision2Names.add(revision2Name);
+			}
+			return revision2Names;
+		}
+		finally {
 			close(conn, stmt, rs);
 		}
 	}

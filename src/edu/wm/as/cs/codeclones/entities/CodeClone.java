@@ -19,15 +19,18 @@ public class CodeClone {
 	private String fileName2;
 	private int startLine2;
 	private int endLine2;
-	private int detectorID;
+//	private int detectorID;
+	private String detectorName;
+	private String configuration;
 	
 	public CodeClone() {
 	}
+
 	
 
 	public CodeClone(int cloneID, String project1Name, String revision1Name, String fileName1, int startLine1,
 			int endLine1, String project2Name, String revision2Name, String fileName2, int startLine2, int endLine2,
-			int detectorID) {
+			String detectorName, String configuration) {
 		super();
 		this.cloneID = cloneID;
 		this.project1Name = project1Name;
@@ -40,9 +43,11 @@ public class CodeClone {
 		this.fileName2 = fileName2;
 		this.startLine2 = startLine2;
 		this.endLine2 = endLine2;
-		this.detectorID = detectorID;
+		this.detectorName = detectorName;
+		this.configuration = configuration;
 	}
-	
+
+
 
 	public String getProject1Name() {
 		return project1Name;
@@ -140,13 +145,30 @@ public class CodeClone {
 		this.endLine2 = endLine2;
 	}
 
-	public int getDetectorID() {
-		return detectorID;
+
+
+	public String getDetectorName() {
+		return detectorName;
 	}
 
-	public void setDetectorID(int detectorID) {
-		this.detectorID = detectorID;
+
+
+	public void setDetectorName(String detectorName) {
+		this.detectorName = detectorName;
 	}
+
+
+
+	public String getConfiguration() {
+		return configuration;
+	}
+
+
+
+	public void setConfiguration(String configuration) {
+		this.configuration = configuration;
+	}
+
 
 
 	@Override
@@ -154,7 +176,9 @@ public class CodeClone {
 		return "CodeClone [cloneID=" + cloneID + ", project1Name=" + project1Name + ", revision1Name=" + revision1Name
 				+ ", fileName1=" + fileName1 + ", startLine1=" + startLine1 + ", endLine1=" + endLine1
 				+ ", project2Name=" + project2Name + ", revision2Name=" + revision2Name + ", fileName2=" + fileName2
-				+ ", startLine2=" + startLine2 + ", endLine2=" + endLine2 + ", detectorID=" + detectorID + "]";
+				+ ", startLine2=" + startLine2 + ", endLine2=" + endLine2 + ", detectorName=" + detectorName
+				+ ", configuration=" + configuration + "]";
 	}
+
 
 }

@@ -25,34 +25,31 @@
 <h:body>
 <h2>Upload Code Clone</h2>
 <hr />
+<p>
+<h:outputLink value="clones_list.xhtml">Back to List</h:outputLink>
+</p>
 <h:form enctype="multipart/form-data" prependId="false">
 <h:panelGrid columns="3">
-	<h:outputText value="Project Name:"/>
-	<h:inputText  id="projectName" 
-				value="#{cloneController.newProjectName}"
-				label="Project Name"
-				validator="#{cloneController.validateNewProjectName}"/>
-	<h:message for="projectName" />
-	
-	<h:outputText value="Revision Name:"/>
-	<h:inputText  id="revisionName" 
-				value="#{cloneController.newRevisionName}"
-				label="Revision Name"
-				validator="#{cloneController.validateNewRevisionName}"/>
-	<h:message for="revisionName" />
-	
 	<h:outputText value="Author Name:"/>
 	<h:inputText  id="authorName" 
 				value="#{cloneController.newAuthorName}"
 				label="Author Name"/>
-	
 	<h:panelGrid />
-	<h:outputText value="File:"/>
-	<h:inputFile id="inputFile" value="#{fileController.codeListFile}"/>
+	
+	<h:outputText value="File1:"/>
+	<h:inputFile id="codeFile1" value="#{fileController.codeFile1}"/>
+	<h:panelGrid />
+	
+	<h:outputText value="File2:"/>
+	<h:inputFile id="codeFile2" value="#{fileController.codeFile2}"/>
+	<h:panelGrid />
+	
+	<h:outputText value=".csv File:"/>
+	<h:inputFile id="csvFile" value="#{fileController.csvFile}"/>
 	<h:panelGrid />
 </h:panelGrid>
-<h:commandButton value="Submit" action="#{fileController.uploadFile}"/>
-<p id="textOutput">Text: #{fileController.fileText}</p>
+<h:commandButton value="Submit" action="#{fileController.uploadCloneInfoFile}"
+	disable="true"/>
 </h:form>
 </h:body>
 </html>

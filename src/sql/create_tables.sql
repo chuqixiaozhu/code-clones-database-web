@@ -2,7 +2,7 @@
 USE `code_clones`;
 
 -- DROP TABLE IF EXISTS `student`;
-DROP TABLE IF EXISTS `Project` CASCADE;
+-- DROP TABLE IF EXISTS `Project` CASCADE;
 CREATE TABLE IF NOT EXISTS `Project`(
   `projectID` int NOT NULL AUTO_INCREMENT,
   `projectName` varchar(140) NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `Project`(
   INDEX index_project (`projectID`)
 );
 
-DROP TABLE IF EXISTS `Revision` CASCADE;
+-- DROP TABLE IF EXISTS `Revision` CASCADE;
 CREATE TABLE IF NOT EXISTS `Revision` (
   `revisionID` int NOT NULL AUTO_INCREMENT,
   -- `projectID` int NOT NULL,
@@ -36,17 +36,18 @@ CREATE TABLE IF NOT EXISTS `Revision` (
     ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS `File` CASCADE;
+-- DROP TABLE IF EXISTS `File` CASCADE;
 CREATE TABLE IF NOT EXISTS `File` (
   -- `detectorID` int NOT NULL AUTO_INCREMENT,
   -- `projectID` int NOT NULL,
+  `fileID` int NOT NULL AUTO_INCREMENT,
   `fileName` varchar(140) NOT NULL,
   `projectName` varchar(140) NOT NULL,
   `revisionName` varchar(140) NOT NULL,
   `fileData` longtext DEFAULT NULL,
 
-  PRIMARY KEY (`fileName`, `projectName`, `revisionName`),
-  INDEX index_file (`fileName`)
+  PRIMARY KEY (`fileID`),
+  INDEX index_file (`fileID`)
 );
 
 -- DROP TABLE IF EXISTS `Detector` CASCADE;
@@ -60,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `File` (
 --   INDEX index_detector (`detectorID`)
 -- );
 
-DROP TABLE IF EXISTS `CodeClone` CASCADE;
+-- DROP TABLE IF EXISTS `CodeClone` CASCADE;
 CREATE TABLE IF NOT EXISTS `CodeClone` (
   `cloneID` int NOT NULL AUTO_INCREMENT,
   -- `projectID1` int NOT NULL,
@@ -102,24 +103,24 @@ CREATE TABLE IF NOT EXISTS `CodeClone` (
   FOREIGN KEY (`revision1Name`)
   	REFERENCES `Revision` (`revisionName`)
   	ON UPDATE CASCADE ON DELETE CASCADE,
-  FOREIGN KEY (`fileName1`)
-  	REFERENCES `File` (`fileName`)
-  	ON UPDATE CASCADE ON DELETE CASCADE,
+  -- FOREIGN KEY (`fileName1`)
+  -- 	REFERENCES `File` (`fileName`)
+  -- 	ON UPDATE CASCADE ON DELETE CASCADE,
   FOREIGN KEY (`project2Name`)
     REFERENCES `Project` (`projectName`)
     ON UPDATE CASCADE ON DELETE CASCADE,
   FOREIGN KEY (`revision2Name`)
   	REFERENCES `Revision` (`revisionName`)
-  	ON UPDATE CASCADE ON DELETE CASCADE,
-  FOREIGN KEY (`fileName2`)
-    REFERENCES `File` (`fileName`)
-    ON UPDATE CASCADE ON DELETE CASCADE
+  	ON UPDATE CASCADE ON DELETE CASCADE
+  -- FOREIGN KEY (`fileName2`)
+  --   REFERENCES `File` (`fileName`)
+  --   ON UPDATE CASCADE ON DELETE CASCADE
   -- FOREIGN KEY (`detectorID`)
   --   REFERENCES `Detector` (`detectorID`)
   --   ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS `Evaluation` CASCADE;
+-- DROP TABLE IF EXISTS `Evaluation` CASCADE;
 CREATE TABLE IF NOT EXISTS `Evaluation`(
   `evaluationID` int NOT NULL AUTO_INCREMENT,
   `cloneID` int NOT NULL,
@@ -135,7 +136,7 @@ CREATE TABLE IF NOT EXISTS `Evaluation`(
   	ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS `User` CASCADE;
+-- DROP TABLE IF EXISTS `User` CASCADE;
 CREATE TABLE IF NOT EXISTS `User`(
   `userName` varchar(140) NOT NULL,
   `password` varchar(140) NOT NULL,

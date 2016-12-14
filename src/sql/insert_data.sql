@@ -14,15 +14,15 @@ INSERT INTO `Revision` VALUES
 	(6, 'Fog Computing', 'P3-R2', 'John', NULL);
 
 INSERT INTO `File` VALUES
-	('P1-R1-F1', 'Code Clones', 'P1-R1', 'print(a)\na=b\nc=d\x=g'),
-	('P1-R1-F2', 'Code Clones', 'P1-R1', 'printf("\n")'),
-	('P1-R2-F1', 'Code Clones', 'P1-R2', 'for'),
-	('P1-R2-F2', 'Code Clones', 'P1-R2', 'while'),
-	('P2-R1-F1', 'Music App', 'P2-R1', 'if'),
-	('P2-R2-F1', 'Music App', 'P2-R2', 'try'),
-	('P3-R1-F1', 'Fog Computing', 'P3-R1', 'switch'),
-	('P3-R2-F1', 'Fog Computing', 'P3-R2', 'pass'),
-	('P2-R2-F2', 'Music App', 'P2-R2', 'exit');
+	(1, 'P1-R1-F1', 'Code Clones', 'P1-R1', 'print(a)\na=b\nc=d\x=g'),
+	(2, 'P1-R1-F2', 'Code Clones', 'P1-R1', 'printf("\n")'),
+	(3, 'P1-R2-F1', 'Code Clones', 'P1-R2', 'for'),
+	(4, 'P1-R2-F2', 'Code Clones', 'P1-R2', 'while'),
+	(5, 'P2-R1-F1', 'Music App', 'P2-R1', 'if'),
+	(6, 'P2-R2-F1', 'Music App', 'P2-R2', 'try'),
+	(7, 'P3-R1-F1', 'Fog Computing', 'P3-R1', 'switch'),
+	(8, 'P3-R2-F1', 'Fog Computing', 'P3-R2', 'pass'),
+	(9, 'P2-R2-F2', 'Music App', 'P2-R2', 'exit');
 
 -- INSERT INTO `Detector` VALUES
 -- 	(1, 'D1', '0x155117'),

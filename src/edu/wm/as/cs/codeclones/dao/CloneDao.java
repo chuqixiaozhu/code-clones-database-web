@@ -190,6 +190,37 @@ public class CloneDao {
 		}
 	}
 	
+	public void addCloneByClone(CodeClone clone) throws Exception {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		try {
+			conn = getConnection();
+			String sql = "insert into CodeClone "
+						+ "(project1Name, revision1Name, fileName1, startLine1, "
+						+ "endLine1, project2Name, revision2Name, fileName2, "
+						+ "startLine2, endLine2, detectorName, configuration) "
+						+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			stmt = conn.prepareStatement(sql);
+			
+			stmt.setString(1, clone.getProject1Name());
+			stmt.setString(2, clone.getRevision1Name());
+			stmt.setString(3, clone.getFileName1());
+			stmt.setInt(4, clone.getStartLine1());
+			stmt.setInt(5, clone.getEndLine1());
+			stmt.setString(6, clone.getProject2Name());
+			stmt.setString(7, clone.getRevision2Name());
+			stmt.setString(8, clone.getFileName2());
+			stmt.setInt(9, clone.getStartLine2());
+			stmt.setInt(10, clone.getEndLine2());
+			stmt.setString(11, clone.getDetectorName());
+			stmt.setString(12, clone.getConfiguration());
+			stmt.execute();			
+		}
+		finally {
+			close (conn, stmt);
+		}
+	}
+	
 	public List<String> getProject1Names() throws Exception {
 		List<String> project1Names = new ArrayList<>();
 		Connection conn = null;

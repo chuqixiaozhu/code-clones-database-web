@@ -11,13 +11,26 @@
 </h:head>
 <h:body>
 <h2>Code Clone View</h2>
-<hr/>
+<h:form>
 <p>
 <h:outputLink value="clones_list.xhtml">Back to List</h:outputLink>
 </p>
+<p><h:commandLink value="Log out" action="#{userController.logout}"/></p>
+</h:form>
+<hr/>
+
 <h:form>
+<p><h:outputLabel for="twoFilesPanelGrid" value="Code Fragments:" /></p>
+<h:panelGrid id="twoFilesPanelGrid" columns="3" border="1">
+	
+<pre>#{cloneController.codeFragment1}</pre>
+	<h:panelGrid />
+<pre>#{cloneController.codeFragment2}</pre>
+
+</h:panelGrid>
+
 <p><h:outputLabel for="theClonePanelGrid" value="Code Clone Information:" /></p>
-<h:panelGrid id="theClonePanelGrid" columns="10" border="1">
+<h:panelGrid id="theClonePanelGrid" columns="12" border="1">
 	<h:outputText value="Project 1"/>
 	<h:outputText value="Revision 1"/>
 	<h:outputText value="File 1"/>
@@ -28,6 +41,8 @@
 	<h:outputText value="File 2"/>
 	<h:outputText value="Start Line"/>
 	<h:outputText value="End Line"/>
+	<h:outputText value="Detector"/>
+	<h:outputText value="Configuration"/>
 	
 	<h:outputText value="#{cloneController.theClone.project1Name}"/>
 	<h:outputText value="#{cloneController.theClone.revision1Name}"/>
@@ -39,6 +54,8 @@
 	<h:outputText value="#{cloneController.theClone.fileName2}"/>
 	<h:outputText value="#{cloneController.theClone.startLine2}"/>
 	<h:outputText value="#{cloneController.theClone.endLine2}"/>
+	<h:outputText value="#{cloneController.theClone.detectorName}"/>
+	<h:outputText value="#{cloneController.theClone.configuration}"/>
 </h:panelGrid>
 
 <p><h:outputLabel for="theDetectorPanelGrid" value="Detector Information:"/></p>

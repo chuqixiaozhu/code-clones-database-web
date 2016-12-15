@@ -3,6 +3,7 @@ package edu.wm.as.cs.codeclones.dao;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -86,6 +87,43 @@ public class FileDao {
 		}
 		finally {
 			close (conn, stmt);
+		}
+	}
+	
+	public File getFileByFileProjectRevisionNames(String projectName,
+													String revisionName,
+													String fileName) throws Exception {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = getConnection();
+			String sql = "select * from File "
+						+ "where projectName=?"
+						+ "and revisionName=?"
+						+ "and fileName=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, projectName);
+			stmt.setString(2, revisionName);
+			stmt.setString(3, fileName);
+			rs = stmt.executeQuery();
+			File theFile = null;
+			
+			if(rs.next()) {
+				int fileID = rs.getInt("fileID");
+				Clob fileData = rs.getClob("fileData");
+				theFile = new File(fileID,
+						fileName,
+						projectName,
+						revisionName,
+						fileData);
+			} else {
+				throw new Exception("Could not find file name: " + fileName + ", P: " + projectName + ", R: " + revisionName);
+			}
+			return theFile;
+		} finally {
+			close(conn, stmt, rs);
 		}
 	}
 }

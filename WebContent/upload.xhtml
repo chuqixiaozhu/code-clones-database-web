@@ -7,7 +7,7 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <f:metadata>
-	<f:event type="preRenderView" listener="#{cloneController.loadProject1Names}"/>
+<!-- 	<f:event type="preRenderView" listener="#{cloneController.loadProject1Names}"/> -->
 <!-- 	<f:event type="preRenderView" listener="#{cloneController.loadProject2Names}"/> -->
 <!-- 	<f:event type="preRenderView" listener="#{cloneController.loadRevision1Names}"/> -->
 <!-- 	<f:event type="preRenderView" listener="#{cloneController.loadRevision2Names}"/> -->
@@ -24,18 +24,62 @@
 
 <h:body>
 <h2>Upload Code Clone</h2>
-<hr />
+<h:form>
 <p>
 <h:outputLink value="clones_list.xhtml">Back to List</h:outputLink>
 </p>
+<p><h:commandLink value="Log out" action="#{userController.logout}"/></p>
+</h:form>
+<hr />
+
 <h:form enctype="multipart/form-data" prependId="false">
 <h:panelGrid columns="3">
-	<h:outputText value="Author Name:"/>
-	<h:inputText  id="authorName" 
-				value="#{cloneController.newAuthorName}"
-				label="Author Name"/>
+	<h:outputText value=".csv File:"/>
+	<h:inputFile id="csvFile" value="#{fileController.csvFile}"/>
 	<h:panelGrid />
 	
+	<h:commandButton value="Upload" action="#{fileController.uploadCloneInfoFile}"/>
+</h:panelGrid>
+
+
+
+
+<h:panelGrid id="theClonePanelGrid" columns="5" border="1">
+	<h:outputText value="Project 1"/>
+	<h:outputText value="Revision 1"/>
+	<h:outputText value="File 1"/>
+	<h:outputText value="Start Line"/>
+	<h:outputText value="End Line"/>
+	
+	<h:inputText value="#{fileController.theClone.project1Name}"/>
+	<h:inputText value="#{fileController.theClone.revision1Name}"/>
+	<h:inputText value="#{fileController.theClone.fileName1}"/>
+	<h:inputText value="#{fileController.theClone.startLine1}"/>
+	<h:inputText value="#{fileController.theClone.endLine1}"/>
+	
+	<h:outputText value="Project 2"/>
+	<h:outputText value="Revision 2"/>
+	<h:outputText value="File 2"/>
+	<h:outputText value="Start Line"/>
+	<h:outputText value="End Line"/>
+	<h:inputText value="#{fileController.theClone.project2Name}"/>
+	<h:inputText value="#{fileController.theClone.revision2Name}"/>
+	<h:inputText value="#{fileController.theClone.fileName2}"/>
+	<h:inputText value="#{fileController.theClone.startLine2}"/>
+	<h:inputText value="#{fileController.theClone.endLine2}"/>
+	
+	<h:panelGrid/>
+	<h:panelGrid/>
+	<h:panelGrid/>
+	<h:outputText value="Detector"/>
+	<h:outputText value="Congiguration"/>
+	<h:panelGrid/>
+	<h:panelGrid/>
+	<h:panelGrid/>
+	<h:inputText value="#{fileController.theClone.detectorName}"/>
+	<h:inputText value="#{fileController.theClone.configuration}"/>
+</h:panelGrid>
+<h:panelGrid columns="3">
 	<h:outputText value="File1:"/>
 	<h:inputFile id="codeFile1" value="#{fileController.codeFile1}"/>
 	<h:panelGrid />
@@ -44,12 +88,9 @@
 	<h:inputFile id="codeFile2" value="#{fileController.codeFile2}"/>
 	<h:panelGrid />
 	
-	<h:outputText value=".csv File:"/>
-	<h:inputFile id="csvFile" value="#{fileController.csvFile}"/>
-	<h:panelGrid />
+	<h:commandButton value="Submit" action="#{fileController.saveFiles}"/>
 </h:panelGrid>
-<h:commandButton value="Submit" action="#{fileController.uploadCloneInfoFile}"
-	disable="true"/>
+
 </h:form>
 </h:body>
 </html>

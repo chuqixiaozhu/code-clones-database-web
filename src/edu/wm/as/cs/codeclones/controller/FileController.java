@@ -1,9 +1,9 @@
 package edu.wm.as.cs.codeclones.controller;
 
-import java.io.IOException;
+//import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
+//import java.util.ArrayList;
+//import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,6 +29,7 @@ public class FileController {
 	private Part codeFile1;
 	private Part codeFile2;
 	private Part csvFile;
+	private CodeClone theClone;
 //	List<String> fileText;
 	
 	public FileController () throws Exception {
@@ -36,6 +37,7 @@ public class FileController {
 		codeFile1 = null;
 		codeFile2 = null;
 		csvFile = null;
+		theClone = new CodeClone();
 	}
 	
 	private void addErrorMessage(Exception exc) {
@@ -66,13 +68,13 @@ public class FileController {
                     file1.setProjectName(at[0].trim());
                     file1.setRevisionName(at[1].trim());
                     is = codeFile1.getInputStream();
-                	fileDao.addFileByInputStream(file1, is);
+//                	fileDao.addFileByInputStream(file1, is);
                     /* File 2 */
                     file2.setFileName(at[7].trim());
                     file2.setProjectName(at[5].trim());
                     file2.setRevisionName(at[6].trim());
                 	is = codeFile2.getInputStream();
-                	fileDao.addFileByInputStream(file2, is);
+//                	fileDao.addFileByInputStream(file2, is);
                 	/* clone */
                 	CodeClone tempClone = new CodeClone();
                 	tempClone.setProject1Name(at[0].trim());
@@ -87,10 +89,10 @@ public class FileController {
                 	tempClone.setEndLine2(Integer.parseInt(at[9].trim()));
                 	tempClone.setDetectorName(at[10].trim());
                 	tempClone.setConfiguration(at[11].trim());
-                	CloneDao cloneDao = CloneDao.getInstance();
-                	cloneDao.addCloneByClone(tempClone);
-                	
-                	return "clones_list";
+//                	CloneDao cloneDao = CloneDao.getInstance();
+//                	cloneDao.addCloneByClone(tempClone);
+                	theClone = tempClone;
+//                	return "clones_list";
                 }
             } catch (Exception exc) {
             	logger.log(Level.SEVERE, "Error loading projects", exc);
@@ -101,6 +103,45 @@ public class FileController {
             	}
             }
         }
+		return null;
+	}
+	
+	public String saveFiles() {
+		File file1 = new File();
+		File file2 = new File();
+		try {
+			file1.setFileName(theClone.getFileName1());
+			file1.setProjectName(theClone.getProject1Name());
+			file1.setRevisionName(theClone.getRevision1Name());
+			InputStream is = codeFile1.getInputStream();
+			Scanner sc = new Scanner(is);
+			if (sc.hasNextLine()) {
+				fileDao.addFileByInputStream(file1, is);
+			}
+        	
+        	file2.setFileName(theClone.getFileName2());
+			file2.setProjectName(theClone.getProject2Name());
+			file2.setRevisionName(theClone.getRevision2Name());
+			is = codeFile2.getInputStream();
+			sc.close();
+			sc = new Scanner(is);
+			if (sc.hasNextLine()) {
+				fileDao.addFileByInputStream(file2, is);
+			}
+        	sc.close();
+			if (theClone.getProject1Name() != null) {
+				CloneDao cloneDao = CloneDao.getInstance();
+	        	cloneDao.addCloneByClone(theClone);
+	        	System.out.println("theClone: " + theClone);//test
+	        	theClone = new CodeClone();
+	        	return "clones_list";
+			} else {
+				return null;
+			}
+		} catch (Exception exc) {
+			logger.log(Level.SEVERE, "Error loading projects", exc);
+			addErrorMessage(exc);
+		}
 		return null;
 	}
 
@@ -126,6 +167,14 @@ public class FileController {
 
 	public void setCsvFile(Part csvFile) {
 		this.csvFile = csvFile;
+	}
+
+	public CodeClone getTheClone() {
+		return theClone;
+	}
+
+	public void setTheClone(CodeClone theClone) {
+		this.theClone = theClone;
 	}
 	
 	

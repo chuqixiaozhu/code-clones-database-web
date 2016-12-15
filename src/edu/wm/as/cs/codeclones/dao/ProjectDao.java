@@ -68,7 +68,7 @@ public class ProjectDao {
 		ResultSet rs = null;
 		try {
 			conn = getConnection();
-			String sql = "select * from Project order by projectName";
+			String sql = "select * from Project";
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
 			List<Project> projects = new ArrayList<>();

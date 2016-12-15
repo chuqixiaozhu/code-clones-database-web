@@ -1,7 +1,9 @@
 package edu.wm.as.cs.codeclones.controller;
+import java.sql.Clob;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,11 +17,14 @@ import javax.faces.validator.ValidatorException;
 import edu.wm.as.cs.codeclones.dao.CloneDao;
 //import edu.wm.as.cs.codeclones.dao.DetectorDao;
 import edu.wm.as.cs.codeclones.dao.EvaluationDao;
+import edu.wm.as.cs.codeclones.dao.FileDao;
 import edu.wm.as.cs.codeclones.dao.ProjectDao;
 import edu.wm.as.cs.codeclones.dao.RevisionDao;
+//import edu.wm.as.cs.codeclones.dao.UserDao;
 import edu.wm.as.cs.codeclones.entities.CodeClone;
 //import edu.wm.as.cs.codeclones.entities.Detector;
 import edu.wm.as.cs.codeclones.entities.Evaluation;
+import edu.wm.as.cs.codeclones.entities.File;
 import edu.wm.as.cs.codeclones.entities.Project;
 import edu.wm.as.cs.codeclones.entities.Revision;
 
@@ -45,6 +50,8 @@ public class CloneController {
 	private CodeClone theClone;
 //	private Detector theDetector;
 	private Evaluation theEvaluation;
+	private File theFile1;
+	private File theFile2;
 	private int type1Num;
 	private int type2Num;
 	private int type3Num;
@@ -55,6 +62,8 @@ public class CloneController {
 	private float scoreMean;
 	private int thetf;
 	private List<Evaluation> evaluations;
+	private String codeFragment1;
+	private String codeFragment2;
 	
 	private String newProjectName;
 	private String newRevisionName;
@@ -149,9 +158,28 @@ public class CloneController {
 		return this.clones;
 	}
 	
+	private String getCodeFragment(Clob clob, int startLine, int endLine) {
+		String code = new String("");
+		int count = 0;
+		try (Scanner sc = new Scanner(clob.getAsciiStream())) {
+			while (sc.hasNextLine()) {
+				count += 1;
+				if (count > endLine) {
+					break;
+				}
+				if (count >= startLine) {
+					String line = sc.nextLine();
+					code += line + "\n";
+				}
+			}
+		} catch (Exception exc) {
+			System.out.println("Cannot get file1's code");
+		}
+		return code;
+	}
+	
 	public String loadClone(int cloneID) {
 		logger.info("loading clone: " + cloneID);
-		
 		try {
 			/* Code Clone Information */
 			theClone = cloneDao.getCloneByCloneID(cloneID);
@@ -169,6 +197,20 @@ public class CloneController {
 			falseaPositiveNum = evaluationDao.getFalsePositiveNumByCloneID(cloneID);
 			scoreMean = evaluationDao.getScoreMeanByCloneID(cloneID);
 			evaluations = evaluationDao.getEvaluationsByCloneID(cloneID);
+			/* Files */
+			FileDao fileDao = FileDao.getInstance();
+			theFile1 = fileDao.getFileByFileProjectRevisionNames(theClone.getProject1Name(),
+																theClone.getRevision1Name(),
+																theClone.getFileName1());
+			theFile2 = fileDao.getFileByFileProjectRevisionNames(theClone.getProject2Name(),
+																theClone.getRevision2Name(),
+																theClone.getFileName2());
+			codeFragment1 = getCodeFragment(theFile1.getFileData(), 
+											theClone.getStartLine1(), 
+											theClone.getEndLine1());
+			codeFragment2 = getCodeFragment(theFile2.getFileData(), 
+											theClone.getStartLine2(), 
+											theClone.getEndLine2());
 		} catch (Exception exc) {
 			// send this to server logs
 			logger.log(Level.SEVERE, "Error loading code clone id:" + cloneID, exc);
@@ -309,6 +351,15 @@ public class CloneController {
 			}
 		}
 	}
+	
+//	public String logout(){
+//		try{
+//			UserDao userDao = UserDao.getInstance();
+//			return userDao.logout();
+//		} catch (Exception exc) {
+//			return "index";
+//		}
+//	}
 
 	public String getProject1SelectedName() {
 		return project1SelectedName;
@@ -517,8 +568,37 @@ public class CloneController {
 	public void setNewAuthorName(String newAuthorName) {
 		this.newAuthorName = newAuthorName;
 	}
-	
-	
-	
+
+	public File getTheFile1() {
+		return theFile1;
+	}
+
+	public void setTheFile1(File theFile1) {
+		this.theFile1 = theFile1;
+	}
+
+	public File getTheFile2() {
+		return theFile2;
+	}
+
+	public void setTheFile2(File theFile2) {
+		this.theFile2 = theFile2;
+	}
+
+	public String getCodeFragment1() {
+		return codeFragment1;
+	}
+
+	public void setCodeFragment1(String codeFragment1) {
+		this.codeFragment1 = codeFragment1;
+	}
+
+	public String getCodeFragment2() {
+		return codeFragment2;
+	}
+
+	public void setCodeFragment2(String codeFragment2) {
+		this.codeFragment2 = codeFragment2;
+	}
 	
 }

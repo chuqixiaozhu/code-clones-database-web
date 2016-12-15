@@ -25,8 +25,12 @@
 
 <h:body>
 <h1>Code Clones List</h1>
+<h:form>
+<p><h:commandLink value="Log out" action="#{userController.logout}"/></p>
+</h:form>
 <hr/>
 <h:form>
+
 <h:panelGrid columns="5">
 	<h:outputLabel for="project1SelectOneMenu" value="#1 Project Name:" />
 		
@@ -79,11 +83,13 @@
 	</h:outputLabel>
 	
 </h:panelGrid>
-<p>
+
+<h:panelGrid columns="2">
 <h:commandButton id="showCommandButton" value="Show" 
 	action="#{cloneController.getClonesTable}"/>
-</p>
-
+<h:button id="addButton" value="Add" 
+	outcome="upload"/>
+</h:panelGrid>
 <h:dataTable id="cloneDataTable"
 			value="#{cloneController.clones}" var="tempClone">
 	<h:column>
@@ -121,10 +127,6 @@
 </h:dataTable>
 
 </h:form>
-<p>
-<h:button id="addButton" value="Add" 
-	outcome="upload"/>
-</p>
 </h:body>
 
 </html>

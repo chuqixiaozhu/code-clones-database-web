@@ -24,6 +24,7 @@ public class CodeClone {
 	private String configuration;
 	
 	public CodeClone() {
+		project1Name = null;
 	}
 
 	

@@ -1,9 +1,9 @@
 USE `code_clones`;
 
-DELETE FROM if exists User;
-DELETE FROM if exists Evaluation;
-DELETE FROM if exists CodeClone;
-DELETE FROM if exists Detector;
-DELETE FROM if exists File;
-DELETE FROM if exists Revision;
-DELETE FROM if exists Project;
+DELETE FROM  User;
+DELETE FROM  Evaluation;
+DELETE FROM  CodeClone;
+-- DELETE FROM  Detector;
+DELETE FROM  File;
+DELETE FROM  Revision;
+DELETE FROM  Project;

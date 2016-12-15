@@ -1,6 +1,8 @@
 package edu.wm.as.cs.codeclones.entities;
 
+//import java.io.InputStream;
 import java.sql.Clob;
+//import java.util.Scanner;
 
 public class File {
 	private int fileID;
@@ -58,13 +60,31 @@ public class File {
 		this.revisionName = revisionName;
 	}
 
+//	public String getFileData() {
+////		return fileData;
+//		String code = new String("");
+//		try (Scanner sc = new Scanner(fileData.getAsciiStream())) {
+//			while (sc.hasNextLine()) {
+//				String line = sc.nextLine();
+//				code += line + "\n";
+//			}
+//			System.out.println(code);
+//			return code;
+//		} catch (Exception exc) {
+//			System.out.println("Cannot get file1's code");
+//		}
+////		InputStream is = fileData.getAsciiStream();
+////		Scanner sc = new Scanner(is);
+//		return null;
+//	}
+	
 	public Clob getFileData() {
 		return fileData;
 	}
+	
+	
 
 	public void setFileData(Clob fileData) {
 		this.fileData = fileData;
 	}
-	
-	
 }

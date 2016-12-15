@@ -115,9 +115,9 @@ public class FileController {
 			file1.setRevisionName(theClone.getRevision1Name());
 			InputStream is = codeFile1.getInputStream();
 			Scanner sc = new Scanner(is);
-			if (sc.hasNextLine()) {
-				fileDao.addFileByInputStream(file1, is);
-			}
+//			if (sc.hasNextLine()) {
+			fileDao.addFileByInputStream(file1, is);
+//			}
         	
         	file2.setFileName(theClone.getFileName2());
 			file2.setProjectName(theClone.getProject2Name());
@@ -125,9 +125,9 @@ public class FileController {
 			is = codeFile2.getInputStream();
 			sc.close();
 			sc = new Scanner(is);
-			if (sc.hasNextLine()) {
-				fileDao.addFileByInputStream(file2, is);
-			}
+//			if (sc.hasNextLine()) {
+			fileDao.addFileByInputStream(file2, is);
+//			}
         	sc.close();
 			if (theClone.getProject1Name() != null) {
 				CloneDao cloneDao = CloneDao.getInstance();

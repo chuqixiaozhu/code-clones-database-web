@@ -25,7 +25,7 @@ public class ProjectController {
 //	private Boolean inOneProjectChecked;
 	
 	public ProjectController () throws Exception {
-		projectDao = ProjectDao.getInstance();
+		projectDao = new ProjectDao();
 		projectNames = new ArrayList<>();
 //		inOneProjectChecked = false;
 	}
@@ -44,6 +44,9 @@ public class ProjectController {
 			for (Project temp : projects) {
 				projectNames.add(temp.getProjectName());
 			}
+			for (String tmp : projectNames) {
+				System.out.println(tmp);
+			}//test
 		} catch (Exception exc) {
 			logger.log(Level.SEVERE, "Error loading projects", exc);
 			addErrorMessage(exc);
@@ -57,29 +60,18 @@ public class ProjectController {
 	public void setProjectNames(List<String> projectNames) {
 		this.projectNames = projectNames;
 	}
-
-//	public String getProject1SelectedName() {
-//		return project1SelectedName;
-//	}
-//
-//	public void setProject1SelectedName(String project1SelectedName) {
-//		this.project1SelectedName = project1SelectedName;
-//	}
-
-//	public Boolean getInOneProjectChecked() {
-//		return inOneProjectChecked;
-//	}
-//
-//	public void setInOneProjectChecked(Boolean inOneProjectChecked) {
-//		this.inOneProjectChecked = inOneProjectChecked;
-//	}
-//
-//	public String getProject2SelectedName() {
-//		return project2SelectedName;
-//	}
-//
-//	public void setProject2SelectedName(String project2SelectedName) {
-//		this.project2SelectedName = project2SelectedName;
-//	}
 	
+//	public static void main(String[] argv) {
+//		System.setProperty(Context.INITIAL_CONTEXT_FACTORY,
+//                "org.apache.naming.java.javaURLContextFactory");
+//		try {
+//		ProjectController pc = new ProjectController();
+//		List<String> projectNames = pc.getProjectNames();
+//		for (String tmp : projectNames) {
+//			System.out.println(tmp);
+//		}
+//		} catch (Exception exc) {
+//			exc.printStackTrace();
+//		}
+//	}
 }

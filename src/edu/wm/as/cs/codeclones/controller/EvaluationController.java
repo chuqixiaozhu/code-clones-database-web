@@ -11,6 +11,7 @@ import javax.faces.context.FacesContext;
 import edu.wm.as.cs.codeclones.dao.EvaluationDao;
 import edu.wm.as.cs.codeclones.entities.Evaluation;
 
+/*
 @ManagedBean
 @SessionScoped
 public class EvaluationController {
@@ -81,3 +82,4 @@ public class EvaluationController {
 		System.out.println("Test ID: " + cloneID);
 	}
 }
+*/

@@ -34,15 +34,25 @@
 
 <h:form enctype="multipart/form-data" prependId="false">
 <h:panelGrid columns="3">
-	<h:outputText value=".csv File:"/>
-	<h:inputFile id="csvFile" value="#{fileController.csvFile}"/>
+	<h:outputText value="Project Name"/>
+	<h:inputText value="#{uploadController.projectName}"
+				id="project_name"
+				validator="#{studentFour.validateTheCourseCode}" />
+	<h:message for="project_name" />
+	
+	<h:outputText value="Revision Name" />
+	<h:inputText value="#{uploadController.revisionName}" />
 	<h:panelGrid />
 	
-	<h:commandButton value="Upload" action="#{fileController.uploadCloneInfoFile}"/>
+	<h:outputText value=".csv File:"/>
+	<h:inputFile id="zipFile" value="#{uploadController.zipFile}"/>
+	<h:panelGrid />
+	
+	<h:commandButton value="Upload" action="#{uploadController.uploadFile}"/>
 </h:panelGrid>
 
 
-
+<!-- 
 
 <h:panelGrid id="theClonePanelGrid" columns="5" border="1">
 	<h:outputText value="Project 1"/>
@@ -90,7 +100,7 @@
 	
 	<h:commandButton value="Submit" action="#{fileController.saveFiles}"/>
 </h:panelGrid>
-
+ -->
 </h:form>
 </h:body>
 </html>

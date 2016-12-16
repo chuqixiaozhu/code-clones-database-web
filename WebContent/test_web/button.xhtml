@@ -5,17 +5,13 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
-
+<f:metadata>
+	<f:event type="preRenderView" listener="#{projectController.loadProjects}"/>
+</f:metadata>
 
 <h:body>
 <h:form>
-<h:commandButton value="Submit"></h:commandButton>
-<br/>
-<h:outputLink value="list-students.xhtml">Back to List</h:outputLink><br/>
-<h:outputLink value="../index.xhtml" onclick="if (confirm('Are you OK?')) {return true;} else {return false;}">
-<!-- <h:outputLink value="index.xtml" onclick="if (!confirm('Are you OK?')) return false"> -->
-Have fun!
-</h:outputLink>
+
 </h:form>
 </h:body>
 </html>

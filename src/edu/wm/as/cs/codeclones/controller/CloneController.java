@@ -17,18 +17,16 @@ import javax.faces.validator.ValidatorException;
 import edu.wm.as.cs.codeclones.dao.CloneDao;
 //import edu.wm.as.cs.codeclones.dao.DetectorDao;
 import edu.wm.as.cs.codeclones.dao.EvaluationDao;
-import edu.wm.as.cs.codeclones.dao.FileDao;
 import edu.wm.as.cs.codeclones.dao.ProjectDao;
 import edu.wm.as.cs.codeclones.dao.RevisionDao;
 //import edu.wm.as.cs.codeclones.dao.UserDao;
 import edu.wm.as.cs.codeclones.entities.CodeClone;
 //import edu.wm.as.cs.codeclones.entities.Detector;
 import edu.wm.as.cs.codeclones.entities.Evaluation;
-import edu.wm.as.cs.codeclones.entities.File;
 import edu.wm.as.cs.codeclones.entities.Project;
 import edu.wm.as.cs.codeclones.entities.Revision;
 
-
+/*
 @ManagedBean
 @SessionScoped
 public class CloneController {
@@ -50,8 +48,6 @@ public class CloneController {
 	private CodeClone theClone;
 //	private Detector theDetector;
 	private Evaluation theEvaluation;
-	private File theFile1;
-	private File theFile2;
 	private int type1Num;
 	private int type2Num;
 	private int type3Num;
@@ -181,12 +177,12 @@ public class CloneController {
 	public String loadClone(int cloneID) {
 		logger.info("loading clone: " + cloneID);
 		try {
-			/* Code Clone Information */
+//			Code Clone Information 
 			theClone = cloneDao.getCloneByCloneID(cloneID);
-			/* Detector Information */
+//			 Detector Information 
 //			DetectorDao detectorDao = DetectorDao.getInstance();
 //			theDetector = detectorDao.getDetectorByID(theClone.getDetectorID());
-			/* Evaluation History */
+//			 Evaluation History 
 			EvaluationDao evaluationDao = EvaluationDao.getInstance();
 			type1Num = evaluationDao.getType1NumByCloneID(cloneID);
 			type2Num = evaluationDao.getType2NumByCloneID(cloneID);
@@ -197,20 +193,20 @@ public class CloneController {
 			falseaPositiveNum = evaluationDao.getFalsePositiveNumByCloneID(cloneID);
 			scoreMean = evaluationDao.getScoreMeanByCloneID(cloneID);
 			evaluations = evaluationDao.getEvaluationsByCloneID(cloneID);
-			/* Files */
-			FileDao fileDao = FileDao.getInstance();
-			theFile1 = fileDao.getFileByFileProjectRevisionNames(theClone.getProject1Name(),
-																theClone.getRevision1Name(),
-																theClone.getFileName1());
-			theFile2 = fileDao.getFileByFileProjectRevisionNames(theClone.getProject2Name(),
-																theClone.getRevision2Name(),
-																theClone.getFileName2());
-			codeFragment1 = getCodeFragment(theFile1.getFileData(), 
-											theClone.getStartLine1(), 
-											theClone.getEndLine1());
-			codeFragment2 = getCodeFragment(theFile2.getFileData(), 
-											theClone.getStartLine2(), 
-											theClone.getEndLine2());
+//			 Files 
+//			FileDao fileDao = FileDao.getInstance();
+//			theFile1 = fileDao.getFileByFileProjectRevisionNames(theClone.getProject1Name(),
+//																theClone.getRevision1Name(),
+//																theClone.getFileName1());
+//			theFile2 = fileDao.getFileByFileProjectRevisionNames(theClone.getProject2Name(),
+//																theClone.getRevision2Name(),
+//																theClone.getFileName2());
+//			codeFragment1 = getCodeFragment(theFile1.getFileData(), 
+//											theClone.getStartLine1(), 
+//											theClone.getEndLine1());
+//			codeFragment2 = getCodeFragment(theFile2.getFileData(), 
+//											theClone.getStartLine2(), 
+//											theClone.getEndLine2());
 		} catch (Exception exc) {
 			// send this to server logs
 			logger.log(Level.SEVERE, "Error loading code clone id:" + cloneID, exc);
@@ -228,10 +224,10 @@ public class CloneController {
 		this.loadClones();
 		if (!project1SelectedName.equals("ALL")) {
 			for (Iterator<CodeClone> iter = clones.iterator(); iter.hasNext();) {
-				String name = iter.next().getProject1Name();
-				if (!name.equals(project1SelectedName)) {
-					iter.remove();
-				}
+//				String name = iter.next().getProject1Name();
+//				if (!name.equals(project1SelectedName)) {
+//					iter.remove();
+//				}
 			}
 		}
 		if (inOneProjectChecked) {
@@ -241,18 +237,18 @@ public class CloneController {
 		if (!project2SelectedName.equals("ALL")) {
 
 			for (Iterator<CodeClone> iter = clones.iterator(); iter.hasNext();) {
-				String name = iter.next().getProject2Name();
-				if (!name.equals(project2SelectedName)) {
-					iter.remove();
-				}
+//				String name = iter.next().getProject2Name();
+//				if (!name.equals(project2SelectedName)) {
+//					iter.remove();
+//				}
 			}
 		}
 		if (!revision1SelectedName.equals("ALL")) {
 			for (Iterator<CodeClone> iter = clones.iterator(); iter.hasNext();) {
-				String name = iter.next().getRevision1Name();
-				if (!name.equals(revision1SelectedName)) {
-					iter.remove();
-				}
+//				String name = iter.next().getRevision1Name();
+//				if (!name.equals(revision1SelectedName)) {
+//					iter.remove();
+//				}
 			}
 		}
 		if (inOneRevisionChecked) {
@@ -261,10 +257,10 @@ public class CloneController {
 		if (!revision2SelectedName.equals("ALL")) {
 
 			for (Iterator<CodeClone> iter = clones.iterator(); iter.hasNext();) {
-				String name = iter.next().getRevision2Name();
-				if (!name.equals(revision2SelectedName)) {
-					iter.remove();
-				}
+//				String name = iter.next().getRevision2Name();
+//				if (!name.equals(revision2SelectedName)) {
+//					iter.remove();
+//				}
 			}
 		}
 //		return "clones_list";
@@ -323,14 +319,14 @@ public class CloneController {
 		String data = value.toString();
 
 		// Course code must start with LUV ... if not, throw exception
-		ProjectDao projectDao = ProjectDao.getInstance();
-		List<Project> projects = projectDao.getProjects();
-		for (Project tmp : projects) {
-			if (data.equals(tmp.getProjectName())) {
-				FacesMessage message = new FacesMessage("Project name already exists.");
-				throw new ValidatorException(message);
-			}
-		}
+//		ProjectDao projectDao = ProjectDao.getInstance();
+//		List<Project> projects = projectDao.getProjects();
+//		for (Project tmp : projects) {
+//			if (data.equals(tmp.getProjectName())) {
+//				FacesMessage message = new FacesMessage("Project name already exists.");
+//				throw new ValidatorException(message);
+//			}
+//		}
 	}
 	
 	public void validateNewRevisionName(FacesContext context, UIComponent component, Object value)
@@ -342,14 +338,14 @@ public class CloneController {
 
 		String data = value.toString();
 
-		RevisionDao revisionDao = RevisionDao.getInstance();
-		List<Revision> revisions = revisionDao.getRevisions();
-		for (Revision tmp : revisions) {
-			if (data.equals(tmp.getRevisionName())) {
-				FacesMessage message = new FacesMessage("Revision name already exists.");
-				throw new ValidatorException(message);
-			}
-		}
+//		RevisionDao revisionDao = RevisionDao.getInstance();
+//		List<Revision> revisions = revisionDao.getRevisions();
+//		for (Revision tmp : revisions) {
+//			if (data.equals(tmp.getRevisionName())) {
+//				FacesMessage message = new FacesMessage("Revision name already exists.");
+//				throw new ValidatorException(message);
+//			}
+//		}
 	}
 	
 //	public String logout(){
@@ -569,22 +565,7 @@ public class CloneController {
 		this.newAuthorName = newAuthorName;
 	}
 
-	public File getTheFile1() {
-		return theFile1;
-	}
-
-	public void setTheFile1(File theFile1) {
-		this.theFile1 = theFile1;
-	}
-
-	public File getTheFile2() {
-		return theFile2;
-	}
-
-	public void setTheFile2(File theFile2) {
-		this.theFile2 = theFile2;
-	}
-
+	
 	public String getCodeFragment1() {
 		return codeFragment1;
 	}
@@ -602,3 +583,4 @@ public class CloneController {
 	}
 	
 }
+*/

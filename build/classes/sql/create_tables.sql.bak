@@ -1,0 +1,152 @@
+CREATE DATABASE  IF NOT EXISTS `code_clones`
+USE `code_clones`;
+
+CREATE TABLE IF NOT EXISTS `Project`(
+  `projectID` int NOT NULL AUTO_INCREMENT,
+  `projectName` varchar(140) NOT NULL,
+
+  PRIMARY KEY (`projectID`),
+  UNIQUE (`projectName`),
+  INDEX index_project (`projectID`)
+);
+
+CREATE TABLE IF NOT EXISTS `Revision` (
+  `revisionID` int NOT NULL AUTO_INCREMENT,
+  `projectID` int NOT NULL,
+  `revisionName` varchar(140) NOT NULL,
+
+  PRIMARY KEY (`revisionID`),
+  INDEX index_revision (`revisionID`),
+  UNIQUE (`revisionName`),
+  FOREIGN KEY (`projectID`)
+  	REFERENCES `Project` (`projectID`)
+  	ON UPDATE CASCADE ON DELETE CASCADE
+  
+);
+
+-- DROP TABLE IF EXISTS `File` CASCADE;
+-- CREATE TABLE IF NOT EXISTS `File` (
+--   -- `detectorID` int NOT NULL AUTO_INCREMENT,
+--   -- `projectID` int NOT NULL,
+--   `fileID` int NOT NULL AUTO_INCREMENT,
+--   `fileName` varchar(140) NOT NULL,
+--   `projectName` varchar(140) NOT NULL,
+--   `revisionName` varchar(140) NOT NULL,
+--   `fileData` longtext DEFAULT NULL,
+
+--   PRIMARY KEY (`fileID`),
+--   INDEX index_file (`fileID`)
+-- );
+
+CREATE TABLE IF NOT EXISTS `Detector` (
+  `detectorID` int NOT NULL AUTO_INCREMENT,
+  -- `projectID` int NOT NULL,
+  `detectorName` varchar(140) NOT NULL,
+  `detectConfig` varchar(10240) NOT NULL,
+
+  PRIMARY KEY (`detectorID`),
+  INDEX index_detector (`detectorID`)
+);
+CREATE TABLE IF NOT EXISTS `Fragment` (
+	`fragmentID` int NOT NULL AUTO_INCREMENT,
+	`projectID` int NOT NULL,
+	`revisionID` int NOT NULL,
+	`startLine` int  NOT NULL,
+	`endLine` int  NOT NULL,
+	`filePath` VARCHAR(1024) NOT NULL,
+	
+	PRIMARY KEY (`fragmentID`),
+	INDEX index_fragment (`fragmentID`),
+	FOREIGN KEY (`projectID`)
+	  	REFERENCES `Project` (`projectID`)
+	  	ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (`revisionID`)
+	  	REFERENCES `Revision` (`revisionID`)
+	  	ON UPDATE CASCADE ON DELETE CASCADE
+);
+-- DROP TABLE IF EXISTS `CodeClone` CASCADE;
+CREATE TABLE IF NOT EXISTS `CodeClone` (
+  `cloneID` int NOT NULL AUTO_INCREMENT,
+  `fragment1ID` int NOT NULL,
+  `fragment2ID` int NOT NULL,
+  `detectorID` int NOT NULL
+  -- `revisionID1` int NOT NULL,
+--  `project1Name` varchar(140) NOT NULL,
+--  `revision1Name` varchar(140) NOT NULL,
+--  `fileName1` varchar(140) DEFAULT NULL,
+--  `startLine1` int DEFAULT NULL,
+--  `endLine1` int DEFAULT NULL,
+  -- `projectID2` int NOT NULL,
+  -- `revisionID2` int NOT NULL,
+--  `project2Name` varchar(140) NOT NULL,
+--  `revision2Name` varchar(140) NOT NULL,
+--  `fileName2` varchar(140) DEFAULT NULL,
+--  `startLine2` int DEFAULT NULL,
+--  `endLine2` int DEFAULT NULL,
+  -- `type` int DEFAULT NULL,
+  -- `detectorID` int NOT NULL,
+--  `detectorName` varchar(140) NOT NULL,
+--  `configuration` varchar(1024) NOT NULL,
+  
+  PRIMARY KEY (`cloneID`),
+  INDEX index_clone (`cloneID`),
+  -- FOREIGN KEY (`projectID1`)
+  --   REFERENCES `Project` (`projectID`)
+  --   ON UPDATE CASCADE ON DELETE CASCADE,
+  -- FOREIGN KEY (`revisionID1`)
+  --   REFERENCES `Revision` (`revisionID`)
+  --   ON UPDATE CASCADE ON DELETE CASCADE,
+  -- FOREIGN KEY (`projectID2`)
+  --   REFERENCES `Project` (`projectID`)
+  --   ON UPDATE CASCADE ON DELETE CASCADE,
+  -- FOREIGN KEY (`revisionID2`)
+  --   REFERENCES `Revision` (`revisionID`)
+  --   ON UPDATE CASCADE ON DELETE CASCADE
+  FOREIGN KEY (`project1Name`)
+  	REFERENCES `Project` (`projectName`)
+  	ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (`revision1Name`)
+  	REFERENCES `Revision` (`revisionName`)
+  	ON UPDATE CASCADE ON DELETE CASCADE,
+  -- FOREIGN KEY (`fileName1`)
+  -- 	REFERENCES `File` (`fileName`)
+  -- 	ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (`project2Name`)
+    REFERENCES `Project` (`projectName`)
+    ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (`revision2Name`)
+  	REFERENCES `Revision` (`revisionName`)
+  	ON UPDATE CASCADE ON DELETE CASCADE
+  -- FOREIGN KEY (`fileName2`)
+  --   REFERENCES `File` (`fileName`)
+  --   ON UPDATE CASCADE ON DELETE CASCADE
+  -- FOREIGN KEY (`detectorID`)
+  --   REFERENCES `Detector` (`detectorID`)
+  --   ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+-- DROP TABLE IF EXISTS `Evaluation` CASCADE;
+CREATE TABLE IF NOT EXISTS `Evaluation`(
+  `evaluationID` int NOT NULL AUTO_INCREMENT,
+  `cloneID` int NOT NULL,
+  `cloneType` int DEFAULT NULL,
+  `similarity` float DEFAULT NULL,
+  `truePositive` Boolean DEFAULT NULL,
+  `score` float DEFAULT NULL,
+
+  PRIMARY KEY (`evaluationID`),
+  INDEX index_evaluation (`evaluationID`),
+  FOREIGN KEY (`cloneID`)
+  	REFERENCES `CodeClone` (`cloneID`)
+  	ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+-- DROP TABLE IF EXISTS `User` CASCADE;
+CREATE TABLE IF NOT EXISTS `User`(
+  `userName` varchar(140) NOT NULL,
+  `password` varchar(140) NOT NULL,
+  `userType` varchar(140) NOT NULL,
+
+  PRIMARY KEY (`userName`),
+  INDEX index_user (`userName`)
+);

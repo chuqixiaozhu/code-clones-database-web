@@ -8,13 +8,13 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
-import edu.wm.as.cs.codeclones.dao.UserDao;
+//import edu.wm.as.cs.codeclones.dao.UserDao;
 //import edu.wm.as.cs.codeclones.entities.User;
-
+/*
 @ManagedBean
 @SessionScoped
 public class UserController {
-	private UserDao userDao;
+//	private UserDao userDao;
 	private Logger logger = Logger.getLogger(getClass().getName());
 	
 	private String userName;
@@ -22,7 +22,7 @@ public class UserController {
 //	private String userType;
 	
 	public UserController () throws Exception {
-		userDao = UserDao.getInstance();
+//		userDao = UserDao.getInstance();
 //		userNames = new ArrayList<>();
 //		inOneuserChecked = false;
 	}
@@ -88,3 +88,4 @@ public class UserController {
 	}
 	
 }
+*/

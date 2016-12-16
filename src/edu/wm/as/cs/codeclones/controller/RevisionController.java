@@ -25,7 +25,7 @@ public class RevisionController {
 	private Boolean inOneRevisionChecked;
 	
 	public RevisionController () throws Exception {
-		revisionDao = RevisionDao.getInstance();
+//		revisionDao = RevisionDao.getInstance();
 		revisionNames = new ArrayList<>();
 		inOneRevisionChecked = false;
 	}

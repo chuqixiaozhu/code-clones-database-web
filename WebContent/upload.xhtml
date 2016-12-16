@@ -35,20 +35,32 @@
 <h:form enctype="multipart/form-data" prependId="false">
 <h:panelGrid columns="3">
 	<h:outputText value="Project Name"/>
-	<h:inputText value="#{uploadController.projectName}"
-				id="project_name"
-				validator="#{studentFour.validateTheCourseCode}" />
-	<h:message for="project_name" />
+	<h:inputText value="#{uploadController.projectName}"/>
+	<h:panelGrid />
 	
 	<h:outputText value="Revision Name" />
-	<h:inputText value="#{uploadController.revisionName}" />
-	<h:panelGrid />
+	<h:inputText value="#{uploadController.revisionName}" 
+					id="revision_name"
+					validator="#{uploadController.isRevisionNameValid}"/>
+	<h:message for="revision_name" />
 	
-	<h:outputText value=".csv File:"/>
-	<h:inputFile id="zipFile" value="#{uploadController.zipFile}"/>
+	<h:outputText value="Zip File:"/>
+	<h:inputFile value="#{uploadController.zipFile}"/>
 	<h:panelGrid />
+
+<!-- 	<h:outputText value="CSV File:"/> -->
+<!-- 	<h:inputFile id="csvFile" value="#{uploadController.csvFile}"/> -->
+<!-- 	<h:panelGrid /> -->
 	
-	<h:commandButton value="Upload" action="#{uploadController.uploadFile}"/>
+<!-- 	<h:outputText value="Detector Name" /> -->
+<!-- 	<h:inputText value="#{uploadController.revisionName}" /> -->
+<!-- 	<h:panelGrid /> -->
+	
+<!-- 	<h:outputText value="Detector Configuration" /> -->
+<!-- 	<h:inputText value="#{uploadController.revisionName}" /> -->
+<!-- 	<h:panelGrid /> -->
+	
+	<h:commandButton value="Upload" action="#{uploadController.saveZipFile}"/>
 </h:panelGrid>
 
 

@@ -19,6 +19,12 @@ public class Detector {
 		this.detectorConfig = detectorConfig;
 	}
 
+	public Detector(String detectorName, String detectorConfig) {
+		super();
+		this.detectorName = detectorName;
+		this.detectorConfig = detectorConfig;
+	}
+
 	public int getDetectorID() {
 		return detectorID;
 	}

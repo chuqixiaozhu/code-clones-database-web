@@ -13,6 +13,10 @@ import edu.wm.as.cs.codeclones.util.Dao;
 public class RevisionDao {
 	private Dao dao;
 	
+	public RevisionDao() throws Exception {
+		dao = Dao.getInstance();
+	}
+	
 	public List<Revision> getRevisions() throws Exception {
 		Connection conn = null;
 		Statement stmt = null;
@@ -52,12 +56,40 @@ public class RevisionDao {
 			rs = stmt.executeQuery();
 			Revision revision = null;
 			if(rs.next()) {
+				int projectID = rs.getInt("projectID");
 				String revisionName = rs.getString("revisionName");
 				revision = new Revision(revisionID, 
-									revisionID,
+									projectID,
 									revisionName);
 			} else {
 				throw new Exception("Could not find revision id: " + revisionID);
+			}
+			return revision;
+		} finally {
+			dao.close(conn, stmt, rs);
+		}
+	}
+	
+	public Revision getRevisionByName(String revisionName) throws Exception {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			conn = dao.getConnection();
+			String sql = "select * from Revision where revisionName=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, revisionName);
+			rs = stmt.executeQuery();
+			Revision revision = null;
+			if(rs.next()) {
+				int revisionID = rs.getInt("revisionID");
+				int projectID = rs.getInt("projectID");
+				revision = new Revision(revisionID, 
+										projectID,
+										revisionName);
+			} else {
+//				throw new Exception("Could not find revision name: " + revisionName);
+				System.out.println("Could not find revision name: " + revisionName);
 			}
 			return revision;
 		} finally {

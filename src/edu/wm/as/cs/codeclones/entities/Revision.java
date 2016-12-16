@@ -18,6 +18,12 @@ public class Revision {
 		this.revisionName = revisionName;
 	}
 
+	public Revision(int projectID, String revisionName) {
+		super();
+		this.projectID = projectID;
+		this.revisionName = revisionName;
+	}
+
 	public int getRevisionID() {
 		return revisionID;
 	}

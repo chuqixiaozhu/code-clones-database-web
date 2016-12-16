@@ -16,6 +16,11 @@ public class Project {
 		this.projectID = projectID;
 		this.projectName = projectName;
 	}
+	
+	public Project(String projectName) {
+		super();
+		this.projectName = projectName;
+	}
 
 	public int getProjectID() {
 		return projectID;

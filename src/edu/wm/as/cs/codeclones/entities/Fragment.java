@@ -25,6 +25,15 @@ public class Fragment {
 		this.endLine = endLine;
 	}
 
+	public Fragment(int projectID, int revisionID, String filePath, int startLine, int endLine) {
+		super();
+		this.projectID = projectID;
+		this.revisionID = revisionID;
+		this.filePath = filePath;
+		this.startLine = startLine;
+		this.endLine = endLine;
+	}
+
 	public int getFragmentID() {
 		return fragmentID;
 	}

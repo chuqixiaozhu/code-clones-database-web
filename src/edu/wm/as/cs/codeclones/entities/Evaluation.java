@@ -25,6 +25,15 @@ public class Evaluation {
 		this.score = score;
 	}
 
+	public Evaluation(int cloneID, int cloneType, float similarity, Boolean truePositive, float score) {
+		super();
+		this.cloneID = cloneID;
+		this.cloneType = cloneType;
+		this.similarity = similarity;
+		this.truePositive = truePositive;
+		this.score = score;
+	}
+
 	public int getEvaluationID() {
 		return evaluationID;
 	}

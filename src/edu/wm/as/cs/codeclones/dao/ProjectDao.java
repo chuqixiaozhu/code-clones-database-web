@@ -66,6 +66,30 @@ public class ProjectDao{
 		}
 	}
 	
+	public Project getProjectByName(String projectName) throws Exception {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			conn = dao.getConnection();
+			String sql = "select * from Project where projectName=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, projectName);
+			rs = stmt.executeQuery();
+			Project project = null;
+			if(rs.next()) {
+				int projectID = rs.getInt("projectID");
+				project = new Project(projectID, 
+									projectName);
+			} else {
+				throw new Exception("Could not find project name: " + projectName);
+			}
+			return project;
+		} finally {
+			dao.close(conn, stmt, rs);
+		}
+	}
+	
 	public void addProject(Project project) throws Exception {
 		Connection conn = null;
 		PreparedStatement stmt = null;

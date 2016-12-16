@@ -21,6 +21,13 @@ public class CodeClone {
 		this.detectorID = detectorID;
 	}
 
+	public CodeClone(int fragment1id, int fragment2id, int detectorID) {
+		super();
+		fragment1ID = fragment1id;
+		fragment2ID = fragment2id;
+		this.detectorID = detectorID;
+	}
+
 	public int getCloneID() {
 		return cloneID;
 	}

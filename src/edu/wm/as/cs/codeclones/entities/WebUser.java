@@ -21,6 +21,13 @@ public class WebUser {
 		this.userType = userType;
 	}
 
+	public WebUser(String userName, String password, String userType) {
+		super();
+		this.userName = userName;
+		this.password = password;
+		this.userType = userType;
+	}
+
 	public int getUserID() {
 		return userID;
 	}

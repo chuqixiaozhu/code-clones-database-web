@@ -82,7 +82,8 @@ public class ProjectDao{
 				project = new Project(projectID, 
 									projectName);
 			} else {
-				throw new Exception("Could not find project name: " + projectName);
+//				throw new Exception("Could not find project name: " + projectName);
+				System.out.println("Could not find project name: " + projectName);
 			}
 			return project;
 		} finally {

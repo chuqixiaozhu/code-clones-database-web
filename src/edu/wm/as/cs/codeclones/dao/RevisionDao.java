@@ -108,7 +108,7 @@ public class RevisionDao {
 			stmt = conn.prepareStatement(sql);
 			
 			stmt.setInt(1, revision.getProjectID());
-			stmt.setString(1, revision.getRevisionName());
+			stmt.setString(2, revision.getRevisionName());
 						
 			stmt.execute();			
 		}

@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<f:metadata>
+	
+</f:metadata>
+
+<h:head>
+	<title>Upload Code Clone</title>
+</h:head>
+
+<h:body>
+<h2>Upload Code Clone</h2>
+<h:form>
+<p>
+<h:outputLink value="clones_list.xhtml">Back to List</h:outputLink>
+</p>
+<p><h:commandLink value="Log out" action="#{userController.logout}"/></p>
+</h:form>
+<hr />
+
+<h:form enctype="multipart/form-data" prependId="false">
+<h:panelGrid columns="3">
+	<h:outputText value="CSV File:"/>
+	<h:inputFile id="csvFile" value="#{cloneController.csvFile}"/>
+	<h:panelGrid />
+	
+	<h:outputText value="Detector Name" />
+	<h:inputText value="#{cloneController.revisionName}" />
+	<h:panelGrid />
+	
+	<h:outputText value="Detector Configuration" />
+	<h:inputText value="#{cloneController.revisionName}" />
+	<h:panelGrid />
+	
+	<h:commandButton value="Upload" action="#{cloneController.projectUpload}"/>
+</h:panelGrid>
+
+
+</h:form>
+</h:body>
+</html>

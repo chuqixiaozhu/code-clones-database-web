@@ -82,6 +82,37 @@ public class FragmentDao {
 		}
 	}
 	
+	public Fragment getFragmentByFragment(Fragment fragment) throws Exception {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			conn = dao.getConnection();
+			String sql = "select * from Fragment "
+						+ "where projectID=? "
+						+ "and revisionID=? "
+						+ "and filePath=? "
+						+ "and startLine=? "
+						+ "and endLine=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, fragment.getProjectID());
+			stmt.setInt(2, fragment.getRevisionID());
+			stmt.setString(3, fragment.getFilePath());
+			stmt.setInt(4, fragment.getStartLine());
+			stmt.setInt(5, fragment.getEndLine());
+			rs = stmt.executeQuery();
+//			Fragment fragment = null;
+			if(rs.next()) {
+				fragment.setFragmentID(rs.getInt("fragmentID"));
+			} else {
+				throw new Exception("Could not find fragment: " + fragment);
+			}
+			return fragment;
+		} finally {
+			dao.close(conn, stmt, rs);
+		}
+	}
+	
 	public void addFragment(Fragment fragment) throws Exception {
 		Connection conn = null;
 		PreparedStatement stmt = null;

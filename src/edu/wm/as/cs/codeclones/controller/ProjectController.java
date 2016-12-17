@@ -21,11 +21,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.servlet.http.Part;
 
-import edu.wm.as.cs.codeclones.dao.FragmentDao;
 import edu.wm.as.cs.codeclones.dao.ProjectDao;
 import edu.wm.as.cs.codeclones.dao.RevisionDao;
-import edu.wm.as.cs.codeclones.entities.CodeClone;
-import edu.wm.as.cs.codeclones.entities.Fragment;
 import edu.wm.as.cs.codeclones.entities.Project;
 import edu.wm.as.cs.codeclones.entities.Revision;
 import net.lingala.zip4j.core.ZipFile;

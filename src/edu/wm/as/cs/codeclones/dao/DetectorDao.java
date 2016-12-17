@@ -68,6 +68,30 @@ public class DetectorDao {
 		}
 	}
 	
+	public Detector getDetectorByDetector(Detector detector) throws Exception {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			conn = dao.getConnection();
+			String sql = "select * from Detector "
+						+ "where detectorName=? "
+						+ "and detectorConfig=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, detector.getDetectorName());
+			stmt.setString(2, detector.getDetectorConfig());
+			rs = stmt.executeQuery();
+			if(rs.next()) {
+				detector.setDetectorID(rs.getInt("detectorID"));
+			} else {
+				throw new Exception("Could not find detector: " + detector);
+			}
+			return detector;
+		} finally {
+			dao.close(conn, stmt, rs);
+		}
+	}
+	
 	public void addDetector(Detector detector) throws Exception {
 		Connection conn = null;
 		PreparedStatement stmt = null;

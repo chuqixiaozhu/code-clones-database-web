@@ -31,14 +31,14 @@
 	<h:panelGrid />
 	
 	<h:outputText value="Detector Name" />
-	<h:inputText value="#{cloneController.revisionName}" />
+	<h:inputText value="#{cloneController.detectorName}" />
 	<h:panelGrid />
 	
 	<h:outputText value="Detector Configuration" />
-	<h:inputText value="#{cloneController.revisionName}" />
+	<h:inputText value="#{cloneController.detectorConfig}" />
 	<h:panelGrid />
 	
-	<h:commandButton value="Upload" action="#{cloneController.projectUpload}"/>
+	<h:commandButton value="Upload" action="#{cloneController.parseCSVFile}"/>
 </h:panelGrid>
 
 

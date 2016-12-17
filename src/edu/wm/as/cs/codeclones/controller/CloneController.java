@@ -1,24 +1,14 @@
 package edu.wm.as.cs.codeclones.controller;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.text.SimpleDateFormat;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.validator.ValidatorException;
 import javax.servlet.http.Part;
 
 import edu.wm.as.cs.codeclones.dao.CloneDao;
@@ -31,7 +21,6 @@ import edu.wm.as.cs.codeclones.entities.Detector;
 import edu.wm.as.cs.codeclones.entities.Fragment;
 import edu.wm.as.cs.codeclones.entities.Project;
 import edu.wm.as.cs.codeclones.entities.Revision;
-import net.lingala.zip4j.core.ZipFile;
 
 @ManagedBean
 @SessionScoped
@@ -89,19 +78,21 @@ private Logger logger = Logger.getLogger(getClass().getName());
 				String projectName1 = dt[0].trim();
 				String revisionName1 = dt[1].trim();
 				String filePath1 = dt[2].trim();
+				filePath1 = FOLDER_PATH + filePath1;
 				int startLine1 = Integer.parseInt(dt[3].trim());
 				int endLine1 = Integer.parseInt(dt[4].trim());
 				String projectName2 = dt[5].trim();
 				String revisionName2 = dt[6].trim();
 				String filePath2 = dt[7].trim();
+				filePath2 = FOLDER_PATH + filePath2;
 				int startLine2 = Integer.parseInt(dt[8].trim());
 				int endLine2 = Integer.parseInt(dt[9].trim());
 				if (!(isProjectNameExisting(projectName1) 
 						&& isProjectNameExisting(projectName2)
 						&& isRevisionNameExisting(revisionName1)
 						&& isRevisionNameExisting(revisionName2))) {
-					message = "The projects/revisions are not existing.";
-					return;
+					message = "There are some projects/revisions not existing.";
+					continue;
 				}
 				System.out.println("@106");//test
 				/* Get ProjectID and RevisionID */

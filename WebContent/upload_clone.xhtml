@@ -28,7 +28,7 @@
 <h:panelGrid columns="3">
 	<h:outputText value="CSV File:"/>
 	<h:inputFile id="csvFile" value="#{cloneController.csvFile}"/>
-	<h:panelGrid />
+	<h:outputText value="#{cloneController.message}" />
 	
 	<h:outputText value="Detector Name" />
 	<h:inputText value="#{cloneController.detectorName}" />

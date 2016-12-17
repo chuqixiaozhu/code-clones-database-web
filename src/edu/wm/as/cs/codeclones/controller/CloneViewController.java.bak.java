@@ -26,10 +26,10 @@ import edu.wm.as.cs.codeclones.entities.Evaluation;
 import edu.wm.as.cs.codeclones.entities.Project;
 import edu.wm.as.cs.codeclones.entities.Revision;
 
-/*
+
 @ManagedBean
 @SessionScoped
-public class CloneController {
+public class CloneViewController {
 	private CloneDao cloneDao;
 	private Logger logger = Logger.getLogger(getClass().getName());
 	
@@ -583,4 +583,3 @@ public class CloneController {
 	}
 	
 }
-*/

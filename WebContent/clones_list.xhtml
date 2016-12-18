@@ -7,13 +7,17 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <f:metadata>
-	<f:event type="preRenderView" listener="#{cloneController.loadProject1Names}"/>
-	<f:event type="preRenderView" listener="#{cloneController.loadProject2Names}"/>
-	<f:event type="preRenderView" listener="#{cloneController.loadRevision1Names}"/>
-	<f:event type="preRenderView" listener="#{cloneController.loadRevision2Names}"/>
-<!-- 	<f:event type="preRenderView" listener="#{cloneController.loadClones}"/> -->
+	<f:event type="preRenderView" listener="#{cloneViewController.loadProjectNames}"/>
+	<f:event type="preRenderView" listener="#{cloneViewController.loadRevisionNames}"/>
+	
+<!-- 	<f:event type="preRenderView" listener="#{cloneViewController.loadProject2Names}"/> -->
+<!-- 	<f:event type="preRenderView" listener="#{cloneViewController.loadRevisionNames}"/> -->
+<!-- 	<f:event type="preRenderView" listener="#{cloneViewController.loadRevision2Names}"/> -->
+<!-- 	<f:event type="preRenderView" listener="#{cloneViewController.loadClones}"/> -->
 <!-- 	<f:viewAction action="#{projectController.loadProjects}" /> -->
-<!-- 	<f:viewAction action="#{cloneController.loadClones}"  -->
+<!-- 	<f:viewAction action="#{cloneViewController.loadClones}"  -->
+<!-- 	<f:viewAction action="#{cloneViewController.loadProjectNames}" /> -->
+<!-- 	<f:viewAction action="#{cloneViewController.loadRevisionNames}" />  -->
 	
 </f:metadata>
 
@@ -31,52 +35,52 @@
 <h:form>
 
 <h:panelGrid columns="5">
-	<h:outputLabel for="project1SelectOneMenu" value="#1 Project Name:" />
+	<h:outputLabel for="project1SelectOneMenu" value="Project 1 Name:" />
 		
 	<h:selectOneMenu id="project1SelectOneMenu"
-					 value="#{cloneController.project1SelectedName}">
-		<f:selectItems value="#{cloneController.project1Names}"
+					 value="#{cloneViewController.project1SelectedName}">
+		<f:selectItems value="#{cloneViewController.project1Names}"
 			var="tempName" itemLabel="#{tempName}" itemValue="#{tempName}" />
 	</h:selectOneMenu>
 	
 	
 	
-	<h:outputLabel for="project2SelectOneMenu" value="#2 Project Name:" />
+	<h:outputLabel for="project2SelectOneMenu" value="Project 2 Name:" />
 	
 	<h:selectOneMenu id="project2SelectOneMenu"
-					value="#{cloneController.project2SelectedName}"
-					disabled="#{cloneController.inOneProjectChecked}">
-		<f:selectItems value="#{cloneController.project2Names}"
+					value="#{cloneViewController.project2SelectedName}"
+					disabled="#{cloneViewController.isInOneProject}">
+		<f:selectItems value="#{cloneViewController.project2Names}"
 			var="tempName" itemLabel="#{tempName}" itemValue="#{tempName}" />
 	</h:selectOneMenu>
 	
 	<h:outputLabel for="ifOneProjectCheckbox" value="In one project">
 		<h:selectBooleanCheckbox id="ifOneProjectCheckbox" title="In one project"
-			value="#{cloneController.inOneProjectChecked}">
+			value="#{cloneViewController.isInOneProject}">
 			<f:ajax event="change" render="project2SelectOneMenu" />
 		</h:selectBooleanCheckbox>
 	</h:outputLabel>
 	
-	<h:outputLabel for="revision1SelectOneMenu" value="#1 Revision Name:" />
+	<h:outputLabel for="revision1SelectOneMenu" value="Revision 1 Name:" />
 		
 	<h:selectOneMenu id="revision1SelectOneMenu"
-					 value="#{cloneController.revision1SelectedName}">
-		<f:selectItems value="#{cloneController.revision1Names}"
+					 value="#{cloneViewController.revision1SelectedName}">
+		<f:selectItems value="#{cloneViewController.revision1Names}"
 			var="tempName" itemLabel="#{tempName}" itemValue="#{tempName}" />
 	</h:selectOneMenu>
 		
-	<h:outputLabel for="revision2SelectOneMenu" value="#2 Revision Name:" />
+	<h:outputLabel for="revision2SelectOneMenu" value="Revision 2 Name:" />
 	
 	<h:selectOneMenu id="revision2SelectOneMenu"
-					value="#{cloneController.revision2SelectedName}"
-					disabled="#{cloneController.inOneRevisionChecked}">
-		<f:selectItems value="#{cloneController.revision2Names}"
+					value="#{cloneViewController.revision2SelectedName}"
+					disabled="#{cloneViewController.isInOneRevision}">
+		<f:selectItems value="#{cloneViewController.revision2Names}"
 			var="tempName" itemLabel="#{tempName}" itemValue="#{tempName}" />
 	</h:selectOneMenu>
 	
 	<h:outputLabel for="ifOneRevisionCheckbox" value="In one revision">
 		<h:selectBooleanCheckbox id="ifOneRevisionCheckbox" title="In one revision"
-			value="#{cloneController.inOneRevisionChecked}">
+			value="#{cloneViewController.isInOneRevision}">
 			<f:ajax event="change" render="revision2SelectOneMenu" />
 		</h:selectBooleanCheckbox>
 	</h:outputLabel>
@@ -85,12 +89,12 @@
 
 <h:panelGrid columns="2">
 <h:commandButton id="showCommandButton" value="Show" 
-	action="#{cloneController.getClonesTable}"/>
-<h:button id="addButton" value="Add" 
-	outcome="upload"/>
+	action="#{cloneViewController.loadCloneTable}"/>
+<!-- <h:button id="addButton" value="Add"  -->
+<!-- 	outcome="upload"/> -->
 </h:panelGrid>
 <h:dataTable id="cloneDataTable"
-			value="#{cloneController.clones}" var="tempClone">
+			value="#{cloneViewController.cloneViews}" var="tempClone">
 	<h:column>
 		<f:facet name="header">Project 1</f:facet>
 		#{tempClone.project1Name}
@@ -101,11 +105,11 @@
 	</h:column>
 	<h:column>
 		<f:facet name="header">File 1</f:facet>
-		#{tempClone.fileName1}
+		#{tempClone.filePath1}
 	</h:column>
 	<h:column>
 		<f:facet name="header">Project 2</f:facet>
-		<h:outputText value="#{tempClone.project2Name}"/>
+		#{tempClone.project2Name}
 	</h:column>
 	<h:column>
 		<f:facet name="header">Revision 2</f:facet>
@@ -113,14 +117,15 @@
 	</h:column>
 	<h:column>
 		<f:facet name="header">File 2</f:facet>
-		#{tempClone.fileName2}
+		#{tempClone.filePath2}
 	</h:column>
 	<h:column>
 		<f:facet name="header"></f:facet>
-		<h:commandLink value="View" action="#{cloneController.loadClone(tempClone.cloneID)}"/>
+		<h:commandLink value="View" 
+			action="#{evaluationController.viewClone(tempClone.cloneID)}"/>
 		|
 		<h:commandLink value="Delete" 
-			action="#{cloneController.deteleCloneByCloneID(tempClone.cloneID)}">
+			action="#{cloneViewController.deleteClone(tempClone.cloneID)}">
 		</h:commandLink>
 	</h:column>
 </h:dataTable>

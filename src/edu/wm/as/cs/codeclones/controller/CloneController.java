@@ -35,6 +35,7 @@ private Logger logger = Logger.getLogger(getClass().getName());
 	private String detectorConfig;
 	private Part csvFile;
 	private String message;
+	private String finalMessage;
 	
 	private void addErrorMessage(Exception exc) {
 		FacesMessage message = new FacesMessage("Error: " + exc.getMessage());
@@ -42,7 +43,8 @@ private Logger logger = Logger.getLogger(getClass().getName());
 	}
 	
 	public CloneController() {
-
+		message = "";
+		finalMessage = "";
 	}
 	
 	private Boolean isProjectNameExisting(String projectName) throws Exception {
@@ -66,11 +68,12 @@ private Logger logger = Logger.getLogger(getClass().getName());
 	}
 	public void parseCSVFile() {
 		message = "";
-		if (csvFile.getSize() == 0) {
-			System.out.println("The CSV file is empty.");
-			return;
-		}
+		
 		try (Scanner sc = new Scanner(csvFile.getInputStream())) {
+			if (csvFile.getSize() == 0) {
+//				System.out.println("The CSV file is empty.");
+				throw new Exception("The CSV file is empty.");
+			}
 			while (sc.hasNextLine()) {
 				String line = sc.nextLine();
 				String[] dt = line.split(",");
@@ -94,7 +97,6 @@ private Logger logger = Logger.getLogger(getClass().getName());
 					message = "There are some projects/revisions not existing.";
 					continue;
 				}
-				System.out.println("@106");//test
 				/* Get ProjectID and RevisionID */
 				ProjectDao projectDao = new ProjectDao();
 				int projectID1 = projectDao.getProjectByName(projectName1).getProjectID();
@@ -102,7 +104,6 @@ private Logger logger = Logger.getLogger(getClass().getName());
 				RevisionDao revisionDao = new RevisionDao();
 				int revisionID1 = revisionDao.getRevisionByName(revisionName1).getRevisionID();
 				int revisionID2 = revisionDao.getRevisionByName(revisionName2).getRevisionID();
-				System.out.println("@114");//test
 				/* Add The First Fragment into DB */
 				Fragment fragment1 = new Fragment(projectID1, 
 													revisionID1,
@@ -111,7 +112,6 @@ private Logger logger = Logger.getLogger(getClass().getName());
 													endLine1);
 				FragmentDao fragmentDao = new FragmentDao();
 				fragmentDao.addFragment(fragment1);
-				System.out.println("@123");//test
 				/* Add the Second Fragment into DB */
 				Fragment fragment2 = new Fragment(projectID2, 
 													revisionID2,
@@ -119,26 +119,24 @@ private Logger logger = Logger.getLogger(getClass().getName());
 													startLine2,
 													endLine2);
 				fragmentDao.addFragment(fragment2);
-				System.out.println("@131");//test
 				/* Add the Code Clone into DB */
 				fragment1 = fragmentDao.getFragmentByFragment(fragment1);
 				fragment2 = fragmentDao.getFragmentByFragment(fragment2);
-				System.out.println("@135");//test
 				int fragmentID1 = fragment1.getFragmentID();
 				int fragmentID2 = fragment2.getFragmentID();
-				System.out.println("@137");//test
 				DetectorDao detectorDao = new DetectorDao();
 				Detector detector = new Detector(detectorName, detectorConfig);
 				detectorDao.addDetector(detector);
 				int detectorID = detectorDao.getDetectorByDetector(detector).getDetectorID();
-				System.out.println("@141");//test
 				CloneDao cloneDao = new CloneDao(); 
 				CodeClone codeClone = new CodeClone(fragmentID1, fragmentID2, detectorID);
 				cloneDao.addClone(codeClone);
 			}
+			finalMessage = "Success!";
 		} catch (Exception exc) {
 			logger.log(Level.SEVERE, "Error upload the csv file", exc);
 			addErrorMessage(exc);
+			finalMessage = "Upload failed.";
 		}
 	}
 
@@ -172,5 +170,13 @@ private Logger logger = Logger.getLogger(getClass().getName());
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public String getFinalMessage() {
+		return finalMessage;
+	}
+
+	public void setFinalMessage(String finalMessage) {
+		this.finalMessage = finalMessage;
 	}
 }

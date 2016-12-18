@@ -1,17 +1,17 @@
 package edu.wm.as.cs.codeclones.controller;
 
-import java.io.BufferedOutputStream;
+//import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+//import java.io.FileInputStream;
+//import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
-import java.util.Scanner;
+//import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
+//import java.util.zip.ZipEntry;
+//import java.util.zip.ZipInputStream;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -40,6 +40,7 @@ public class ProjectController {
 	private Part csvFile;
 	private String projectName;
 	private String revisionName;
+	private String finalMessage;
 	
 	private void addErrorMessage(Exception exc) {
 		FacesMessage message = new FacesMessage("Error: " + exc.getMessage());
@@ -47,7 +48,7 @@ public class ProjectController {
 	}
 	
 	public ProjectController() {
-
+		finalMessage = "";
 	}
 	
 	public void isRevisionNameValid(FacesContext context, 
@@ -80,9 +81,11 @@ public class ProjectController {
 			RevisionDao revisionDao = new RevisionDao();
 			Revision revision = new Revision(projectID, revisionName);
 			revisionDao.addRevision(revision);
+			finalMessage = "Success!";
 		} catch (Exception exc) {
 			logger.log(Level.SEVERE, "Error upload the zip file", exc);
 			addErrorMessage(exc);
+			finalMessage = "Upload failed.";
 		}
 	}
 	
@@ -127,71 +130,71 @@ public class ProjectController {
 		zipFile.extractAll(outputPath);
 	}
 	
-	private void unZip(String zipFile, String outputPath) throws Exception {
-		
-//		try
-//		{
-		File folder = new File(outputPath);
-		if (!folder.exists()) {
-			folder.mkdir();
-		}
-		ZipInputStream zipInputStream =
-				new ZipInputStream(new FileInputStream(zipFile));
-		ZipEntry zipEntry = null;
-		while ((zipEntry = zipInputStream.getNextEntry()) != null) {
-			String fileName = zipEntry.getName();
-			String filePath = outputPath + File.separator + fileName;
-			if (zipEntry.isDirectory()) {
-				File dir = new File(filePath);
-				dir.mkdir();
-			} else {
-				BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(filePath));
-				byte[] buffer = new byte[2048];
-				int len = 0;
-				while ((len = zipInputStream.read(buffer)) > 0) {
-					bos.write(buffer, 0, len);
-				}
-				bos.close();
-			}
-//			
-//			System.out.println("@139 fileName: " + fileName);//test
-//			File newFile = new File(outputPath + File.separator + fileName);
-//			System.out.println("file unzip: " + newFile.getAbsoluteFile());
-//			
-//			new File(newFile.getParent()).mkdirs();
-//			System.out.println("@144");//test
-//			FileOutputStream fileOutputStream = new FileOutputStream(newFile);
-//			System.out.println("@146");//test
-//			int len;
-//			while ((len = zipInputStream.read(buffer)) > 0) {
-//				fileOutputStream.write(buffer, 0, len);
-//			}
-//			fileOutputStream.close();
-		}
-		zipInputStream.closeEntry();
-		zipInputStream.close();
-//		} catch (Exception exc) {
-//			exc.printStackTrace();
+//	private void unZip(String zipFile, String outputPath) throws Exception {
+//		
+////		try
+////		{
+//		File folder = new File(outputPath);
+//		if (!folder.exists()) {
+//			folder.mkdir();
 //		}
-	}
+//		ZipInputStream zipInputStream =
+//				new ZipInputStream(new FileInputStream(zipFile));
+//		ZipEntry zipEntry = null;
+//		while ((zipEntry = zipInputStream.getNextEntry()) != null) {
+//			String fileName = zipEntry.getName();
+//			String filePath = outputPath + File.separator + fileName;
+//			if (zipEntry.isDirectory()) {
+//				File dir = new File(filePath);
+//				dir.mkdir();
+//			} else {
+//				BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(filePath));
+//				byte[] buffer = new byte[2048];
+//				int len = 0;
+//				while ((len = zipInputStream.read(buffer)) > 0) {
+//					bos.write(buffer, 0, len);
+//				}
+//				bos.close();
+//			}
+////			
+////			System.out.println("@139 fileName: " + fileName);//test
+////			File newFile = new File(outputPath + File.separator + fileName);
+////			System.out.println("file unzip: " + newFile.getAbsoluteFile());
+////			
+////			new File(newFile.getParent()).mkdirs();
+////			System.out.println("@144");//test
+////			FileOutputStream fileOutputStream = new FileOutputStream(newFile);
+////			System.out.println("@146");//test
+////			int len;
+////			while ((len = zipInputStream.read(buffer)) > 0) {
+////				fileOutputStream.write(buffer, 0, len);
+////			}
+////			fileOutputStream.close();
+//		}
+//		zipInputStream.closeEntry();
+//		zipInputStream.close();
+////		} catch (Exception exc) {
+////			exc.printStackTrace();
+////		}
+//	}
 	
-	public void parseCSVFile() throws Exception {
-		try (Scanner sc = new Scanner(csvFile.getInputStream())) {
-			while (sc.hasNextLine()) {
-				String line = sc.nextLine();
-				String[] details = line.split(",");
-				String pathName1 = details[0].trim();
-
-				/* Get ProjectID and RevisionID */
-
-				/* Add The First Fragment into DB */
-
-				/* Add the Second Fragment into DB */
-	
-				/* Add the Code Clone into DB */
-			}
-		}
-	}
+//	public void parseCSVFile() throws Exception {
+//		try (Scanner sc = new Scanner(csvFile.getInputStream())) {
+//			while (sc.hasNextLine()) {
+//				String line = sc.nextLine();
+//				String[] details = line.split(",");
+//				String pathName1 = details[0].trim();
+//
+//				/* Get ProjectID and RevisionID */
+//
+//				/* Add The First Fragment into DB */
+//
+//				/* Add the Second Fragment into DB */
+//	
+//				/* Add the Code Clone into DB */
+//			}
+//		}
+//	}
 
 	public Part getZipFile() {
 		return zipFile;
@@ -224,5 +227,14 @@ public class ProjectController {
 	public void setCsvFile(Part csvFile) {
 		this.csvFile = csvFile;
 	}
+
+	public String getFinalMessage() {
+		return finalMessage;
+	}
+
+	public void setFinalMessage(String finalMessage) {
+		this.finalMessage = finalMessage;
+	}
+	
 	
 }

@@ -40,6 +40,10 @@
 	
 	<h:commandButton value="Upload" action="#{cloneController.parseCSVFile}"/>
 </h:panelGrid>
+<p>
+<h:outputText value="#{cloneController.finalMessage}" 
+				style="color: red;"/>
+</p>
 
 
 </h:form>

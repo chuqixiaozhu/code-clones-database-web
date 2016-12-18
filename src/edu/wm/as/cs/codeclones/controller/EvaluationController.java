@@ -1,5 +1,8 @@
 package edu.wm.as.cs.codeclones.controller;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -8,30 +11,169 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import edu.wm.as.cs.codeclones.dao.CloneDao;
+import edu.wm.as.cs.codeclones.dao.DetectorDao;
 import edu.wm.as.cs.codeclones.dao.EvaluationDao;
+import edu.wm.as.cs.codeclones.dao.FragmentDao;
+import edu.wm.as.cs.codeclones.dao.ProjectDao;
+import edu.wm.as.cs.codeclones.dao.RevisionDao;
+import edu.wm.as.cs.codeclones.entities.CloneView;
+import edu.wm.as.cs.codeclones.entities.CodeClone;
+import edu.wm.as.cs.codeclones.entities.Detector;
 import edu.wm.as.cs.codeclones.entities.Evaluation;
+import edu.wm.as.cs.codeclones.entities.Fragment;
+import edu.wm.as.cs.codeclones.entities.Project;
+import edu.wm.as.cs.codeclones.entities.Revision;
 
-/*
+
 @ManagedBean
 @SessionScoped
 public class EvaluationController {
-	private EvaluationDao evaluationDao;
 	private Logger logger = Logger.getLogger(getClass().getName());
-	
-//	private List<String> evaluationNames;
-//	private String evaluation1SelectedName;
-//	private String evaluation2SelectedName;
-//	private Boolean inOneevaluationChecked;
-	
-	public EvaluationController () throws Exception {
-		evaluationDao = EvaluationDao.getInstance();
-//		evaluationNames = new ArrayList<>();
-//		inOneevaluationChecked = false;
-	}
+
+	private CloneView theClone;
+	private Detector theDetector;
+	private List<Evaluation> evaluations;
+	private int type1Num;
+	private int type2Num;
+	private int type3Num;
+	private int type4Num;
+	private float similarityMean;
+	private int truePositiveNum;
+	private int falseaPositiveNum;
+	private float scoreMean;
+	private Evaluation theEvaluation;
+	private int thetf;
 	
 	private void addErrorMessage(Exception exc) {
 		FacesMessage message = new FacesMessage("Error: " + exc.getMessage());
 		FacesContext.getCurrentInstance().addMessage(null, message);
+	}
+	
+	public EvaluationController() {
+		theEvaluation = new Evaluation();
+	}
+	
+	public String viewClone(int cloneID) {
+		try {
+			/* Clone Info. */
+			loadClone(cloneID);
+			/* Detector Info. */
+			CloneDao cloneDao = new CloneDao();
+			CodeClone clone = cloneDao.getCloneByID(cloneID);
+			int detectorID = clone.getDetectorID();
+			loadDetector(detectorID);
+			/* Evaluation history */
+			loadEvalutions(cloneID);
+		} catch (Exception exc) {
+			logger.log(Level.SEVERE, "Error view code clones", exc);
+			addErrorMessage(exc);
+		}
+		return "view_clone";
+	}
+	
+	private void loadClone(int cloneID) {
+		try {
+			CloneDao cloneDao = new CloneDao();
+			FragmentDao fragmentDao = new FragmentDao();
+			RevisionDao revisionDao = new RevisionDao();
+			ProjectDao projectDao = new ProjectDao();
+			
+			CodeClone clone = cloneDao.getCloneByID(cloneID);
+			int fragment1ID = clone.getFragment1ID();
+			Fragment fragment1 = fragmentDao.getFragmentByID(fragment1ID);
+			int revision1ID = fragment1.getRevisionID();
+			Revision revision1 = revisionDao.getRevisionByID(revision1ID);
+			String revision1Name = revision1.getRevisionName();
+			int project1ID = fragment1.getProjectID();
+			Project project1 = projectDao.getProjectByID(project1ID);
+			String project1Name = project1.getProjectName();
+			String filePath1 = fragment1.getFilePath();
+			int startLine1 = fragment1.getStartLine();
+			int endLine1 = fragment1.getEndLine();
+			
+			int fragment2ID = clone.getFragment2ID();
+			Fragment fragment2 = fragmentDao.getFragmentByID(fragment2ID);
+			int revision2ID = fragment2.getRevisionID();
+			Revision revision2 = revisionDao.getRevisionByID(revision2ID);
+			String revision2Name = revision2.getRevisionName();
+			int project2ID = fragment2.getProjectID();
+			Project project2 = projectDao.getProjectByID(project2ID);
+			String project2Name = project2.getProjectName();
+			String filePath2 = fragment2.getFilePath();
+			int startLine2 = fragment2.getStartLine();
+			int endLine2 = fragment2.getEndLine();
+			
+			Path path = Paths.get(filePath1);
+			filePath1 = path.getFileName().toString();
+			path = Paths.get(filePath2);
+			filePath2 = path.getFileName().toString();
+			theClone = new CloneView(cloneID,
+										project1Name, 
+										revision1Name, 
+										filePath1,
+										startLine1,
+										endLine1,
+										project2Name,
+										revision2Name,
+										filePath2,
+										startLine2,
+										endLine2); 
+		} catch (Exception exc) {
+			logger.log(Level.SEVERE, "Error load the code clone", exc);
+			addErrorMessage(exc);
+		}
+	}
+	
+	private void loadDetector(int detectorID) {
+		try {
+			DetectorDao detectorDao = new DetectorDao();
+			theDetector = detectorDao.getDetectorByID(detectorID);
+		} catch (Exception exc) {
+			logger.log(Level.SEVERE, "Error load the detector", exc);
+			addErrorMessage(exc);
+		}
+	}
+	
+	private void loadEvalutions(int cloneID) {
+		try {
+			EvaluationDao evaluationDao = new EvaluationDao();
+			type1Num = evaluationDao.getType1NumByCloneID(cloneID);
+			type2Num = evaluationDao.getType2NumByCloneID(cloneID);
+			type3Num = evaluationDao.getType3NumByCloneID(cloneID);
+			type4Num = evaluationDao.getType4NumByCloneID(cloneID);
+			similarityMean = evaluationDao.getSimilarityMeanByCloneID(cloneID);
+			truePositiveNum = evaluationDao.getTruePositiveNumByCloneID(cloneID);
+			falseaPositiveNum = evaluationDao.getFalsePositiveNumByCloneID(cloneID);
+			scoreMean = evaluationDao.getScoreMeanByCloneID(cloneID);
+			evaluations = evaluationDao.getEvaluationsByCloneID(cloneID);
+			
+		} catch (Exception exc) {
+			logger.log(Level.SEVERE, "Error load the evaluation", exc);
+			addErrorMessage(exc);
+			
+		}
+		
+	}
+	
+	public void submitEvaluation() {
+		logger.info("Submitting evaluation: " + theEvaluation);
+		try {
+			EvaluationDao evaluationDao = new EvaluationDao();
+			if (thetf == 1) {
+				theEvaluation.setTruePositive(true);
+			} else {
+				theEvaluation.setTruePositive(false);
+			}
+			theEvaluation.setCloneID(theClone.getCloneID());
+			evaluationDao.addEvaluation(theEvaluation);
+		} catch (Exception exc) {
+			logger.log(Level.SEVERE, "Error submit evaluation", exc);
+			addErrorMessage(exc);
+		}
+//		loadClone(theClone.getCloneID());
+		loadEvalutions(theClone.getCloneID());
+//		return "view_clone";
 	}
 	
 	public String addEvaluationByCloneID(Evaluation theEvaluation, int cloneID) {
@@ -40,7 +182,7 @@ public class EvaluationController {
 		try {
 			
 			// add student to the database
-			evaluationDao.addEvaluationByCloneID(theEvaluation, cloneID);
+//			evaluationDao.addEvaluationByCloneID(theEvaluation, cloneID);
 			
 		} catch (Exception exc) {
 			// send this to server logs
@@ -54,13 +196,14 @@ public class EvaluationController {
 		return "view_clone";
 	}
 	
-	public String deleteEvaluationByEvaluationID(int evaluationID) {
+	public String deleteEvaluation(int evaluationID) {
 		logger.info("Deleting evaluationID id: " + evaluationID);
 		
 		try {
 
 			// delete the student from the database
-			evaluationDao.deleteEvaluationByEvaluationID(evaluationID);
+			EvaluationDao evaluationDao = new EvaluationDao();
+			evaluationDao.deleteEvaluation(evaluationID);
 			
 		} catch (Exception exc) {
 			// send this to server logs
@@ -81,5 +224,109 @@ public class EvaluationController {
 //		String cloneID = params.get("cloneID");
 		System.out.println("Test ID: " + cloneID);
 	}
+
+	public CloneView getTheClone() {
+		return theClone;
+	}
+
+	public void setTheClone(CloneView theClone) {
+		this.theClone = theClone;
+	}
+
+	public Detector getTheDetector() {
+		return theDetector;
+	}
+
+	public void setTheDetector(Detector theDetector) {
+		this.theDetector = theDetector;
+	}
+
+	public List<Evaluation> getEvaluations() {
+		return evaluations;
+	}
+
+	public void setEvaluations(List<Evaluation> evaluations) {
+		this.evaluations = evaluations;
+	}
+
+	public int getType1Num() {
+		return type1Num;
+	}
+
+	public void setType1Num(int type1Num) {
+		this.type1Num = type1Num;
+	}
+
+	public int getType2Num() {
+		return type2Num;
+	}
+
+	public void setType2Num(int type2Num) {
+		this.type2Num = type2Num;
+	}
+
+	public int getType3Num() {
+		return type3Num;
+	}
+
+	public void setType3Num(int type3Num) {
+		this.type3Num = type3Num;
+	}
+
+	public int getType4Num() {
+		return type4Num;
+	}
+
+	public void setType4Num(int type4Num) {
+		this.type4Num = type4Num;
+	}
+
+	public float getSimilarityMean() {
+		return similarityMean;
+	}
+
+	public void setSimilarityMean(float similarityMean) {
+		this.similarityMean = similarityMean;
+	}
+
+	public int getTruePositiveNum() {
+		return truePositiveNum;
+	}
+
+	public void setTruePositiveNum(int truePositiveNum) {
+		this.truePositiveNum = truePositiveNum;
+	}
+
+	public int getFalseaPositiveNum() {
+		return falseaPositiveNum;
+	}
+
+	public void setFalseaPositiveNum(int falseaPositiveNum) {
+		this.falseaPositiveNum = falseaPositiveNum;
+	}
+
+	public float getScoreMean() {
+		return scoreMean;
+	}
+
+	public void setScoreMean(float scoreMean) {
+		this.scoreMean = scoreMean;
+	}
+
+	public Evaluation getTheEvaluation() {
+		return theEvaluation;
+	}
+
+	public void setTheEvaluation(Evaluation theEvaluation) {
+		this.theEvaluation = theEvaluation;
+	}
+
+	public int getThetf() {
+		return thetf;
+	}
+
+	public void setThetf(int thetf) {
+		this.thetf = thetf;
+	}
+	
 }
-*/

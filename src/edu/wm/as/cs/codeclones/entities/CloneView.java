@@ -4,13 +4,14 @@ import javax.faces.bean.ManagedBean;
 
 @ManagedBean
 public class CloneView {
-	String projectName1;
-	String revisionName1;
+	int cloneID;
+	String project1Name;
+	String revision1Name;
 	String filePath1;
 	int startLine1;
 	int endLine1;
-	String projectName2;
-	String revisionName2;
+	String project2Name;
+	String revision2Name;
 	String filePath2;
 	int startLine2;
 	int endLine2;
@@ -19,35 +20,46 @@ public class CloneView {
 		super();
 	}
 
-	public CloneView(String projectName1, String revisionName1, String filePath1, int startLine1, int endLine1,
-			String projectName2, String revisionName2, String filePath2, int startLine2, int endLine2) {
+	public CloneView(int cloneID, String project1Name, String revision1Name, String filePath1, int startLine1,
+			int endLine1, String project2Name, String revision2Name, String filePath2, int startLine2, int endLine2) {
 		super();
-		this.projectName1 = projectName1;
-		this.revisionName1 = revisionName1;
+		this.cloneID = cloneID;
+		this.project1Name = project1Name;
+		this.revision1Name = revision1Name;
 		this.filePath1 = filePath1;
 		this.startLine1 = startLine1;
 		this.endLine1 = endLine1;
-		this.projectName2 = projectName2;
-		this.revisionName2 = revisionName2;
+		this.project2Name = project2Name;
+		this.revision2Name = revision2Name;
 		this.filePath2 = filePath2;
 		this.startLine2 = startLine2;
 		this.endLine2 = endLine2;
 	}
 
-	public String getProjectName1() {
-		return projectName1;
+	public int getCloneID() {
+		return cloneID;
 	}
 
-	public void setProjectName1(String projectName1) {
-		this.projectName1 = projectName1;
+
+	public void setCloneID(int cloneID) {
+		this.cloneID = cloneID;
 	}
 
-	public String getRevisionName1() {
-		return revisionName1;
+
+	public String getProject1Name() {
+		return project1Name;
 	}
 
-	public void setRevisionName1(String revisionName1) {
-		this.revisionName1 = revisionName1;
+	public void setProject1Name(String project1Name) {
+		this.project1Name = project1Name;
+	}
+
+	public String getRevision1Name() {
+		return revision1Name;
+	}
+
+	public void setRevision1Name(String revision1Name) {
+		this.revision1Name = revision1Name;
 	}
 
 	public String getFilePath1() {
@@ -74,20 +86,20 @@ public class CloneView {
 		this.endLine1 = endLine1;
 	}
 
-	public String getProjectName2() {
-		return projectName2;
+	public String getProject2Name() {
+		return project2Name;
 	}
 
-	public void setProjectName2(String projectName2) {
-		this.projectName2 = projectName2;
+	public void setProject2Name(String project2Name) {
+		this.project2Name = project2Name;
 	}
 
-	public String getRevisionName2() {
-		return revisionName2;
+	public String getRevision2Name() {
+		return revision2Name;
 	}
 
-	public void setRevisionName2(String revisionName2) {
-		this.revisionName2 = revisionName2;
+	public void setRevision2Name(String revision2Name) {
+		this.revision2Name = revision2Name;
 	}
 
 	public String getFilePath2() {
@@ -113,7 +125,15 @@ public class CloneView {
 	public void setEndLine2(int endLine2) {
 		this.endLine2 = endLine2;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "CloneView [project1Name=" + project1Name + ", revision1Name=" + revision1Name + ", filePath1="
+				+ filePath1 + ", startLine1=" + startLine1 + ", endLine1=" + endLine1 + ", project2Name=" + project2Name
+				+ ", revision2Name=" + revision2Name + ", filePath2=" + filePath2 + ", startLine2=" + startLine2
+				+ ", endLine2=" + endLine2 + "]";
+	}
+
 	
 	
 }

@@ -34,77 +34,22 @@
 	<h:inputText value="#{projectController.revisionName}" 
 					id="revision_name"
 					validator="#{projectController.isRevisionNameValid}"/>
-	<h:message for="revision_name" />
+	<h:message for="revision_name" style="color: red;"/>
 	
 	<h:outputText value="Zip File:"/>
 	<h:inputFile value="#{projectController.zipFile}"/>
 	<h:panelGrid />
-
-<!-- 	<h:outputText value="CSV File:"/> -->
-<!-- 	<h:inputFile id="csvFile" value="#{projectController.csvFile}"/> -->
-<!-- 	<h:panelGrid /> -->
 	
-<!-- 	<h:outputText value="Detector Name" /> -->
-<!-- 	<h:inputText value="#{projectController.revisionName}" /> -->
-<!-- 	<h:panelGrid /> -->
-	
-<!-- 	<h:outputText value="Detector Configuration" /> -->
-<!-- 	<h:inputText value="#{projectController.revisionName}" /> -->
-<!-- 	<h:panelGrid /> -->
-	
-	<h:commandButton value="Upload" action="#{projectController.projectUpload}"/>
+	<h:commandButton value="Upload" action="#{projectController.projectUpload}">
+<!-- 		<f:ajax execute="@form" render="@form"/> -->
+	</h:commandButton>
 </h:panelGrid>
+<p>
+<h:outputText id="final_message" 
+				value="#{projectController.finalMessage}" 
+				style="color: red;"/>
+</p>
 
-
-<!-- 
-
-<h:panelGrid id="theClonePanelGrid" columns="5" border="1">
-	<h:outputText value="Project 1"/>
-	<h:outputText value="Revision 1"/>
-	<h:outputText value="File 1"/>
-	<h:outputText value="Start Line"/>
-	<h:outputText value="End Line"/>
-	
-	<h:inputText value="#{fileController.theClone.project1Name}"/>
-	<h:inputText value="#{fileController.theClone.revision1Name}"/>
-	<h:inputText value="#{fileController.theClone.fileName1}"/>
-	<h:inputText value="#{fileController.theClone.startLine1}"/>
-	<h:inputText value="#{fileController.theClone.endLine1}"/>
-	
-	<h:outputText value="Project 2"/>
-	<h:outputText value="Revision 2"/>
-	<h:outputText value="File 2"/>
-	<h:outputText value="Start Line"/>
-	<h:outputText value="End Line"/>
-	<h:inputText value="#{fileController.theClone.project2Name}"/>
-	<h:inputText value="#{fileController.theClone.revision2Name}"/>
-	<h:inputText value="#{fileController.theClone.fileName2}"/>
-	<h:inputText value="#{fileController.theClone.startLine2}"/>
-	<h:inputText value="#{fileController.theClone.endLine2}"/>
-	
-	<h:panelGrid/>
-	<h:panelGrid/>
-	<h:panelGrid/>
-	<h:outputText value="Detector"/>
-	<h:outputText value="Congiguration"/>
-	<h:panelGrid/>
-	<h:panelGrid/>
-	<h:panelGrid/>
-	<h:inputText value="#{fileController.theClone.detectorName}"/>
-	<h:inputText value="#{fileController.theClone.configuration}"/>
-</h:panelGrid>
-<h:panelGrid columns="3">
-	<h:outputText value="File1:"/>
-	<h:inputFile id="codeFile1" value="#{fileController.codeFile1}"/>
-	<h:panelGrid />
-	
-	<h:outputText value="File2:"/>
-	<h:inputFile id="codeFile2" value="#{fileController.codeFile2}"/>
-	<h:panelGrid />
-	
-	<h:commandButton value="Submit" action="#{fileController.saveFiles}"/>
-</h:panelGrid>
- -->
 </h:form>
 </h:body>
 </html>

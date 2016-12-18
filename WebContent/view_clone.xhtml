@@ -21,16 +21,16 @@
 
 <h:form>
 <p><h:outputLabel for="twoFilesPanelGrid" value="Code Fragments:" /></p>
-<h:panelGrid id="twoFilesPanelGrid" columns="3" border="1">
+<!-- <h:panelGrid id="twoFilesPanelGrid" columns="3" border="1">
 	
-<pre>#{cloneController.codeFragment1}</pre>
+<pre>#{evaluationController.codeFragment1}</pre>
 	<h:panelGrid />
-<pre>#{cloneController.codeFragment2}</pre>
+<pre>#{evaluationController.codeFragment2}</pre>
 
-</h:panelGrid>
+</h:panelGrid> -->
 
 <p><h:outputLabel for="theClonePanelGrid" value="Code Clone Information:" /></p>
-<h:panelGrid id="theClonePanelGrid" columns="12" border="1">
+<h:panelGrid id="theClonePanelGrid" columns="10" border="1">
 	<h:outputText value="Project 1"/>
 	<h:outputText value="Revision 1"/>
 	<h:outputText value="File 1"/>
@@ -41,35 +41,35 @@
 	<h:outputText value="File 2"/>
 	<h:outputText value="Start Line"/>
 	<h:outputText value="End Line"/>
-	<h:outputText value="Detector"/>
-	<h:outputText value="Configuration"/>
+<!-- 	<h:outputText value="Detector"/>
+	<h:outputText value="Configuration"/> -->
 	
-	<h:outputText value="#{cloneController.theClone.project1Name}"/>
-	<h:outputText value="#{cloneController.theClone.revision1Name}"/>
-	<h:outputText value="#{cloneController.theClone.fileName1}"/>
-	<h:outputText value="#{cloneController.theClone.startLine1}"/>
-	<h:outputText value="#{cloneController.theClone.endLine1}"/>
-	<h:outputText value="#{cloneController.theClone.project2Name}"/>
-	<h:outputText value="#{cloneController.theClone.revision2Name}"/>
-	<h:outputText value="#{cloneController.theClone.fileName2}"/>
-	<h:outputText value="#{cloneController.theClone.startLine2}"/>
-	<h:outputText value="#{cloneController.theClone.endLine2}"/>
-	<h:outputText value="#{cloneController.theClone.detectorName}"/>
-	<h:outputText value="#{cloneController.theClone.configuration}"/>
+	<h:outputText value="#{evaluationController.theClone.project1Name}"/>
+	<h:outputText value="#{evaluationController.theClone.revision1Name}"/>
+	<h:outputText value="#{evaluationController.theClone.filePath1}"/>
+	<h:outputText value="#{evaluationController.theClone.startLine1}"/>
+	<h:outputText value="#{evaluationController.theClone.endLine1}"/>
+	<h:outputText value="#{evaluationController.theClone.project2Name}"/>
+	<h:outputText value="#{evaluationController.theClone.revision2Name}"/>
+	<h:outputText value="#{evaluationController.theClone.filePath2}"/>
+	<h:outputText value="#{evaluationController.theClone.startLine2}"/>
+	<h:outputText value="#{evaluationController.theClone.endLine2}"/>
+<!-- 	<h:outputText value="#{evaluationController.theClone.detectorName}"/>
+	<h:outputText value="#{evaluationController.theClone.configuration}"/> -->
 </h:panelGrid>
 
 <p><h:outputLabel for="theDetectorPanelGrid" value="Detector Information:"/></p>
 <h:panelGrid id="theDetectorPanelGrid" columns="2" border="1">
 	<h:outputText value="Detector Name"/>
 	<h:outputText value="Configuration"/>
-	<h:outputText value="#{cloneController.theClone.detectorName}"/>
-	<h:outputText value="#{cloneController.theClone.configuration}"/>
+	<h:outputText value="#{evaluationController.theDetector.detectorName}"/>
+	<h:outputText value="#{evaluationController.theDetector.detectorConfig}"/>
 </h:panelGrid>
 
 <p><h:outputLabel for="evaluationPanelGrid" value="Evaluation History:"/></p>
 
 <h:dataTable id="evaluationsDataTable" border="1"
-			value="#{cloneController.evaluations}" var="tempEvaluation">
+			value="#{evaluationController.evaluations}" var="tempEvaluation">
 	<h:column>
 		<f:facet name="header">Clone Type</f:facet>
 		#{tempEvaluation.cloneType}
@@ -89,7 +89,7 @@
 	<h:column>
 		<f:facet name="header"></f:facet>
 		<h:commandLink value="Delete" 
-				action="#{cloneController.deleteEvaluationByEvaluationID(tempEvaluation.evaluationID)}"/>
+				action="#{evaluationController.deleteEvaluation(tempEvaluation.evaluationID)}"/>
 	</h:column>
 </h:dataTable>
 
@@ -103,33 +103,36 @@
 	<h:outputText value="# False Positive"/>
 	<h:outputText value="Mean Score"/>
 	
-	<h:outputText value="#{cloneController.type1Num}"/>
-	<h:outputText value="#{cloneController.type2Num}"/>
-	<h:outputText value="#{cloneController.type3Num}"/>
-	<h:outputText value="#{cloneController.type4Num}"/>
-	<h:outputText value="#{cloneController.similarityMean}"/>
-	<h:outputText value="#{cloneController.truePositiveNum}"/>
-	<h:outputText value="#{cloneController.falseaPositiveNum}"/>
-	<h:outputText value="#{cloneController.scoreMean}"/>
+	<h:outputText value="#{evaluationController.type1Num}"/>
+	<h:outputText value="#{evaluationController.type2Num}"/>
+	<h:outputText value="#{evaluationController.type3Num}"/>
+	<h:outputText value="#{evaluationController.type4Num}"/>
+	<h:outputText value="#{evaluationController.similarityMean}"/>
+	<h:outputText value="#{evaluationController.truePositiveNum}"/>
+	<h:outputText value="#{evaluationController.falseaPositiveNum}"/>
+	<h:outputText value="#{evaluationController.scoreMean}"/>
 </h:panelGrid>
 
 <p><h:outputLabel for="evaluatingPanelGrid" value="Evaluating:"/></p>
 <h:panelGrid id="evaluatingPanelGrid" columns="3">
 	<h:outputText value="Type:"/>
-	<h:inputText value="#{cloneController.theEvaluation.cloneType}" id="cloneType" />
+	<h:inputText value="#{evaluationController.theEvaluation.cloneType}" id="cloneType" />
 	<h:message for="cloneType" />
 	<h:outputText value="Similarity:"/>
-	<h:inputText value="#{cloneController.theEvaluation.similarity}" id="similarity" />
+	<h:inputText value="#{evaluationController.theEvaluation.similarity}" id="similarity" />
 	<h:message for="similarity" />
 	<h:outputText value="True/False Positive (1/0):"/>
-	<h:inputText value="#{cloneController.thetf}" id="truePositive" /> 
+	<h:inputText value="#{evaluationController.thetf}" id="truePositive" /> 
 	<h:message for="truePositive" />
 	<h:outputText value="Score:"/>
-	<h:inputText value="#{cloneController.theEvaluation.score}" id="score" /> 
+	<h:inputText value="#{evaluationController.theEvaluation.score}" id="score" /> 
 	<h:message for="score" />
 	<h:panelGrid />
 	<h:commandButton value="Submit" 
-			action="#{cloneController.submitEvaluation}"/>
+			action="#{evaluationController.submitEvaluation}">
+			<f:ajax execute="evaluationPanelGrid evaluatingPanelGrid" 
+					render="evaluationsDataTable evaluationPanelGrid"/>
+	</h:commandButton>
 	<h:panelGrid />
 </h:panelGrid>
 <h:outputText value="#{theClone.cloneID}"/>

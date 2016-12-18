@@ -31,12 +31,16 @@
 	<h:outputText value="#{cloneController.message}" />
 	
 	<h:outputText value="Detector Name" />
-	<h:inputText value="#{cloneController.detectorName}" />
-	<h:panelGrid />
+	<h:inputText value="#{cloneController.detectorName}"
+				id = "detector_name"
+				validator="#{cloneController.isDetectorNameValid}" />
+	<h:message for="detector_name" style="color: red;"/>
 	
 	<h:outputText value="Detector Configuration" />
-	<h:inputText value="#{cloneController.detectorConfig}" />
-	<h:panelGrid />
+	<h:inputText value="#{cloneController.detectorConfig}" 
+				id = "detector_config"
+				validator="#{cloneController.isDetectorConfigValid}" />
+	<h:message for="detector_config" style="color: red;"/>
 	
 	<h:commandButton value="Upload" action="#{cloneController.parseCSVFile}"/>
 </h:panelGrid>

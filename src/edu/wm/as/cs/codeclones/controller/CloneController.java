@@ -8,7 +8,9 @@ import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import javax.servlet.http.Part;
 
 import edu.wm.as.cs.codeclones.dao.CloneDao;
@@ -137,6 +139,41 @@ private Logger logger = Logger.getLogger(getClass().getName());
 			logger.log(Level.SEVERE, "Error upload the csv file", exc);
 			addErrorMessage(exc);
 			finalMessage = "Upload failed.";
+		}
+	}
+	
+	public void isDetectorNameValid(FacesContext context, 
+			  UIComponent component, 
+			  Object value) throws Exception {
+		Boolean isValid = true;
+		if (value == null) {
+			isValid = false;
+		}
+		String detectorName = value.toString();
+		if (detectorName.equals("")) {
+			isValid = false;
+		}
+		if (!isValid) {
+			System.out.println("Detector Name inValid");//test
+			FacesMessage message = new FacesMessage("Please type in detector name.");
+			throw new ValidatorException(message);
+		}
+	}
+	
+	public void isDetectorConfigValid(FacesContext context, 
+			  UIComponent component, 
+			  Object value) throws Exception {
+		Boolean isValid = true;
+		if (value == null) {
+			isValid = false;
+		}
+		String detectorConfig = value.toString();
+		if (detectorConfig.equals("")) {
+			isValid = false;
+		}
+		if (!isValid) {
+			FacesMessage message = new FacesMessage("Please type in detector configuration.");
+			throw new ValidatorException(message);
 		}
 	}
 

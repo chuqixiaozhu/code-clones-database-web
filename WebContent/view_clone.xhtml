@@ -89,7 +89,10 @@
 	<h:column>
 		<f:facet name="header"></f:facet>
 		<h:commandLink value="Delete" 
-				action="#{evaluationController.deleteEvaluation(tempEvaluation.evaluationID)}"/>
+				action="#{evaluationController.deleteEvaluation(tempEvaluation.evaluationID)}">
+				<f:ajax execute="@form" 
+					render="@form"/>
+		</h:commandLink>
 	</h:column>
 </h:dataTable>
 

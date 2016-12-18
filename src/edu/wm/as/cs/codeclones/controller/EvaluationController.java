@@ -64,7 +64,7 @@ public class EvaluationController {
 			int detectorID = clone.getDetectorID();
 			loadDetector(detectorID);
 			/* Evaluation history */
-			loadEvalutions(cloneID);
+			loadEvaluations(cloneID);
 		} catch (Exception exc) {
 			logger.log(Level.SEVERE, "Error view code clones", exc);
 			addErrorMessage(exc);
@@ -135,7 +135,7 @@ public class EvaluationController {
 		}
 	}
 	
-	private void loadEvalutions(int cloneID) {
+	private void loadEvaluations(int cloneID) {
 		try {
 			EvaluationDao evaluationDao = new EvaluationDao();
 			type1Num = evaluationDao.getType1NumByCloneID(cloneID);
@@ -172,7 +172,7 @@ public class EvaluationController {
 			addErrorMessage(exc);
 		}
 //		loadClone(theClone.getCloneID());
-		loadEvalutions(theClone.getCloneID());
+		loadEvaluations(theClone.getCloneID());
 //		return "view_clone";
 	}
 	
@@ -204,6 +204,7 @@ public class EvaluationController {
 			// delete the student from the database
 			EvaluationDao evaluationDao = new EvaluationDao();
 			evaluationDao.deleteEvaluation(evaluationID);
+			loadEvaluations(theClone.getCloneID());
 			
 		} catch (Exception exc) {
 			// send this to server logs

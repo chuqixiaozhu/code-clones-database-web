@@ -17,10 +17,10 @@
 <h:body>
 <h2>Upload Code Clone</h2>
 <h:form>
+<p><h:commandLink value="Log out" action="#{userController.logout}"/></p>
 <p>
 <h:outputLink value="clones_list.xhtml">Back to List</h:outputLink>
 </p>
-<p><h:commandLink value="Log out" action="#{userController.logout}"/></p>
 </h:form>
 <hr />
 
@@ -28,19 +28,17 @@
 <h:panelGrid columns="3">
 	<h:outputText value="CSV File:"/>
 	<h:inputFile id="csvFile" value="#{cloneController.csvFile}"/>
-	<h:outputText value="#{cloneController.message}" />
+	<h:outputText value="#{cloneController.csvFileMessage}" style="color: red;"/>
 	
 	<h:outputText value="Detector Name" />
 	<h:inputText value="#{cloneController.detectorName}"
-				id = "detector_name"
-				validator="#{cloneController.isDetectorNameValid}" />
-	<h:message for="detector_name" style="color: red;"/>
+				id = "detector_name" />
+	<h:outputText value="#{cloneController.detectorNameMessage}" style="color: red;" />
 	
 	<h:outputText value="Detector Configuration" />
 	<h:inputText value="#{cloneController.detectorConfig}" 
-				id = "detector_config"
-				validator="#{cloneController.isDetectorConfigValid}" />
-	<h:message for="detector_config" style="color: red;"/>
+				id = "detector_config" />
+	<h:outputText value="#{cloneController.detectorConfigMessage}" style="color: red;" />
 	
 	<h:commandButton value="Upload" action="#{cloneController.parseCSVFile}"/>
 </h:panelGrid>
@@ -48,7 +46,9 @@
 <h:outputText value="#{cloneController.finalMessage}" 
 				style="color: red;"/>
 </p>
-
+<p>
+<h:outputText value="#{cloneController.inputMessage}"  style="color: red;" />
+</p>
 
 </h:form>
 </h:body>

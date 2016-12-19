@@ -3,6 +3,7 @@ package edu.wm.as.cs.codeclones.controller;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -44,6 +45,10 @@ public class EvaluationController {
 	private float scoreMean;
 	private Evaluation theEvaluation;
 	private int thetf;
+	private String filePath1;
+	private String filePath2;
+	private String fragment1;
+	private String fragment2;
 	
 	private void addErrorMessage(Exception exc) {
 		FacesMessage message = new FacesMessage("Error: " + exc.getMessage());
@@ -65,6 +70,8 @@ public class EvaluationController {
 			loadDetector(detectorID);
 			/* Evaluation history */
 			loadEvaluations(cloneID);
+			/* Code Fragment2 */
+			loadFragments(cloneID);
 		} catch (Exception exc) {
 			logger.log(Level.SEVERE, "Error view code clones", exc);
 			addErrorMessage(exc);
@@ -89,6 +96,7 @@ public class EvaluationController {
 			Project project1 = projectDao.getProjectByID(project1ID);
 			String project1Name = project1.getProjectName();
 			String filePath1 = fragment1.getFilePath();
+			this.filePath1 = filePath1;
 			int startLine1 = fragment1.getStartLine();
 			int endLine1 = fragment1.getEndLine();
 			
@@ -101,6 +109,7 @@ public class EvaluationController {
 			Project project2 = projectDao.getProjectByID(project2ID);
 			String project2Name = project2.getProjectName();
 			String filePath2 = fragment2.getFilePath();
+			this.filePath2 = filePath2;
 			int startLine2 = fragment2.getStartLine();
 			int endLine2 = fragment2.getEndLine();
 			
@@ -154,6 +163,32 @@ public class EvaluationController {
 			
 		}
 		
+	}
+	
+	private void loadFragments(int cloneID) {
+//		int startLine1 = theClone.getStartLine1();
+//		int startLine2 = theClone.getStartLine2();
+//		int endLine1 = theClone.getEndLine1();
+//		int endLine2 = theClone.getEndLine2();
+		fragment1 = "";
+		fragment2 = "";
+		try (Scanner sc = new Scanner(Paths.get(filePath1))) {
+			while (sc.hasNext()) {
+				fragment1 += sc.nextLine() + "\n";
+			}
+		} catch (Exception exc) {
+			logger.log(Level.SEVERE, "Error load fragment 1", exc);
+			addErrorMessage(exc);
+		}
+		
+		try (Scanner sc = new Scanner(Paths.get(filePath2))) {
+			while (sc.hasNext()) {
+				fragment2 += sc.nextLine() + "\n";
+			}
+		} catch (Exception exc) {
+			logger.log(Level.SEVERE, "Error load fragment 2", exc);
+			addErrorMessage(exc);
+		}
 	}
 	
 	public void submitEvaluation() {
@@ -328,6 +363,38 @@ public class EvaluationController {
 
 	public void setThetf(int thetf) {
 		this.thetf = thetf;
+	}
+
+	public String getFilePath1() {
+		return filePath1;
+	}
+
+	public void setFilePath1(String filePath1) {
+		this.filePath1 = filePath1;
+	}
+
+	public String getFilePath2() {
+		return filePath2;
+	}
+
+	public void setFilePath2(String filePath2) {
+		this.filePath2 = filePath2;
+	}
+
+	public String getFragment1() {
+		return fragment1;
+	}
+
+	public void setFragment1(String fragment1) {
+		this.fragment1 = fragment1;
+	}
+
+	public String getFragment2() {
+		return fragment2;
+	}
+
+	public void setFragment2(String fragment2) {
+		this.fragment2 = fragment2;
 	}
 	
 }

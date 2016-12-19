@@ -7,7 +7,7 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <f:metadata>
-
+<!-- <f:event type="preRenderView" listener="#{projectController.preLoad}"/> -->
 </f:metadata>
 
 <h:head>
@@ -17,17 +17,19 @@
 <h:body>
 <h2>Upload Project</h2>
 <h:form>
+<p><h:commandLink value="Log out" action="index"/></p>
 <p>
 <h:outputLink value="clones_list.xhtml">Back to List</h:outputLink>
 </p>
-<p><h:commandLink value="Log out" action="index"/></p>
+<p><h:commandLink value="Add Clone" action="#{cloneController.addCloneCommandLink}" /></p>
 </h:form>
 <hr />
 
 <h:form enctype="multipart/form-data" prependId="false">
 <h:panelGrid columns="3">
 	<h:outputText value="Project Name"/>
-	<h:inputText value="#{projectController.projectName}"/>
+	<h:inputText value="#{projectController.projectName}"
+				id="project_name"/>
 	<h:panelGrid />
 	
 	<h:outputText value="Revision Name" />
@@ -37,11 +39,16 @@
 	<h:message for="revision_name" style="color: red;"/>
 	
 	<h:outputText value="Zip File:"/>
-	<h:inputFile value="#{projectController.zipFile}"/>
-	<h:panelGrid />
+	<h:inputFile value="#{projectController.zipFile}" />
+<!-- 				onchange="submit()" -->
+<!-- 				valueChangeListener="#{projectController.fromZipToName}"> -->
+<!-- 		<f:ajax event="change"  -->
+<!-- 				 render="project_name revision_name"/> -->
+<!-- 	</h:inputFile> -->
+	
+	<h:outputText value="#{projectController.zipFileMessage}" style="color: red;"/>
 	
 	<h:commandButton value="Upload" action="#{projectController.projectUpload}">
-<!-- 		<f:ajax execute="@form" render="@form"/> -->
 	</h:commandButton>
 </h:panelGrid>
 <p>

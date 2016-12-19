@@ -8,9 +8,9 @@ import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.component.UIComponent;
+//import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.validator.ValidatorException;
+//import javax.faces.validator.ValidatorException;
 import javax.servlet.http.Part;
 
 import edu.wm.as.cs.codeclones.dao.CloneDao;
@@ -36,8 +36,11 @@ private Logger logger = Logger.getLogger(getClass().getName());
 	private String detectorName;
 	private String detectorConfig;
 	private Part csvFile;
-	private String message;
+	private String inputMessage;
 	private String finalMessage;
+	private String detectorNameMessage;
+	private String detectorConfigMessage;
+	private String csvFileMessage;
 	
 	private void addErrorMessage(Exception exc) {
 		FacesMessage message = new FacesMessage("Error: " + exc.getMessage());
@@ -45,8 +48,28 @@ private Logger logger = Logger.getLogger(getClass().getName());
 	}
 	
 	public CloneController() {
-		message = "";
+		inputMessage = "";
 		finalMessage = "";
+	}
+	
+	public String addCloneCommandLink() {
+		detectorName = "";
+		detectorConfig = "";
+		csvFile = null;
+		inputMessage = "";
+		finalMessage = "";
+		detectorNameMessage = "";
+		detectorConfigMessage = "";
+		csvFileMessage = "";
+		return "upload_clone";
+	}
+	
+	private void cleanMessages() {
+		inputMessage = "";
+		finalMessage = "";
+		detectorNameMessage = "";
+		detectorConfigMessage = "";
+		csvFileMessage = "";
 	}
 	
 	private Boolean isProjectNameExisting(String projectName) throws Exception {
@@ -69,12 +92,22 @@ private Logger logger = Logger.getLogger(getClass().getName());
 		}
 	}
 	public void parseCSVFile() {
-		message = "";
+//		inputMessage = "";
+		cleanMessages();
 		
 		try (Scanner sc = new Scanner(csvFile.getInputStream())) {
 			if (csvFile.getSize() == 0) {
 //				System.out.println("The CSV file is empty.");
+				csvFileMessage = "Please choose csv file.";
 				throw new Exception("The CSV file is empty.");
+			}
+			if (detectorName == null || detectorName.equals("")) {
+				detectorNameMessage = "Please enter detector name.";
+				throw new Exception("Detector name is empty.");
+			}
+			if (detectorConfig == null || detectorConfig.equals("")) {
+				detectorConfigMessage = "Please enter detector name.";
+				throw new Exception("Detector name is empty.");
 			}
 			while (sc.hasNextLine()) {
 				String line = sc.nextLine();
@@ -96,7 +129,7 @@ private Logger logger = Logger.getLogger(getClass().getName());
 						&& isProjectNameExisting(projectName2)
 						&& isRevisionNameExisting(revisionName1)
 						&& isRevisionNameExisting(revisionName2))) {
-					message = "There are some projects/revisions not existing.";
+					inputMessage = "There are some projects/revisions not existing.";
 					continue;
 				}
 				/* Get ProjectID and RevisionID */
@@ -142,40 +175,42 @@ private Logger logger = Logger.getLogger(getClass().getName());
 		}
 	}
 	
-	public void isDetectorNameValid(FacesContext context, 
-			  UIComponent component, 
-			  Object value) throws Exception {
-		Boolean isValid = true;
-		if (value == null) {
-			isValid = false;
-		}
-		String detectorName = value.toString();
-		if (detectorName.equals("")) {
-			isValid = false;
-		}
-		if (!isValid) {
-			System.out.println("Detector Name inValid");//test
-			FacesMessage message = new FacesMessage("Please type in detector name.");
-			throw new ValidatorException(message);
-		}
-	}
-	
-	public void isDetectorConfigValid(FacesContext context, 
-			  UIComponent component, 
-			  Object value) throws Exception {
-		Boolean isValid = true;
-		if (value == null) {
-			isValid = false;
-		}
-		String detectorConfig = value.toString();
-		if (detectorConfig.equals("")) {
-			isValid = false;
-		}
-		if (!isValid) {
-			FacesMessage message = new FacesMessage("Please type in detector configuration.");
-			throw new ValidatorException(message);
-		}
-	}
+//	public void isDetectorNameValid(FacesContext context, 
+//			  UIComponent component, 
+//			  Object value) throws Exception {
+//		System.out.println("@154 isValid!!!!!!!!");//test
+//		Boolean isValid = true;
+//		if (value == null) {
+//			isValid = false;
+//		}
+//		String detectorName = value.toString();
+//		if (detectorName.equals("")) {
+//			isValid = false;
+//		}
+//		if (!isValid) {
+//			System.out.println("Detector Name inValid");//test
+//			FacesMessage message = new FacesMessage("Please type in detector name.");
+//			throw new ValidatorException(message);
+//		}
+//	}
+//	
+//	public void isDetectorConfigValid(FacesContext context, 
+//			  UIComponent component, 
+//			  Object value) throws Exception {
+//		System.out.println("@174 isValid!!!!!!!!");//test
+//		Boolean isValid = true;
+//		if (value == null) {
+//			isValid = false;
+//		}
+//		String detectorConfig = value.toString();
+//		if (detectorConfig.equals("")) {
+//			isValid = false;
+//		}
+//		if (!isValid) {
+//			FacesMessage message = new FacesMessage("Please type in detector configuration.");
+//			throw new ValidatorException(message);
+//		}
+//	}
 
 	public String getDetectorName() {
 		return detectorName;
@@ -201,12 +236,12 @@ private Logger logger = Logger.getLogger(getClass().getName());
 		this.csvFile = csvFile;
 	}
 
-	public String getMessage() {
-		return message;
+	public String getInputMessage() {
+		return inputMessage;
 	}
 
-	public void setMessage(String message) {
-		this.message = message;
+	public void setInputMessage(String inputMessage) {
+		this.inputMessage = inputMessage;
 	}
 
 	public String getFinalMessage() {
@@ -216,4 +251,29 @@ private Logger logger = Logger.getLogger(getClass().getName());
 	public void setFinalMessage(String finalMessage) {
 		this.finalMessage = finalMessage;
 	}
+
+	public String getDetectorNameMessage() {
+		return detectorNameMessage;
+	}
+
+	public void setDetectorNameMessage(String detectorNameMessage) {
+		this.detectorNameMessage = detectorNameMessage;
+	}
+
+	public String getDetectorConfigMessage() {
+		return detectorConfigMessage;
+	}
+
+	public void setDetectorConfigMessage(String detectorConfigMessage) {
+		this.detectorConfigMessage = detectorConfigMessage;
+	}
+
+	public String getCsvFileMessage() {
+		return csvFileMessage;
+	}
+
+	public void setCsvFileMessage(String csvFileMessage) {
+		this.csvFileMessage = csvFileMessage;
+	}
+	
 }

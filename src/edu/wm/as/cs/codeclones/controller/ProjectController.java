@@ -18,6 +18,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+//import javax.faces.event.AjaxBehaviorEvent;
+//import javax.faces.event.ValueChangeEvent;
 import javax.faces.validator.ValidatorException;
 import javax.servlet.http.Part;
 
@@ -40,6 +42,7 @@ public class ProjectController {
 	private Part csvFile;
 	private String projectName;
 	private String revisionName;
+	private String zipFileMessage;
 	private String finalMessage;
 	
 	private void addErrorMessage(Exception exc) {
@@ -48,6 +51,21 @@ public class ProjectController {
 	}
 	
 	public ProjectController() {
+		finalMessage = "";
+	}
+	
+	public String addProjectCommandLink() {
+		zipFile = null;
+		csvFile = null;
+		projectName = "";
+		revisionName = "";
+		zipFileMessage = "";
+		finalMessage = "";
+		return "upload_project";
+	}
+	
+	private void cleanMessages() {
+		zipFileMessage = "";
 		finalMessage = "";
 	}
 	
@@ -66,7 +84,26 @@ public class ProjectController {
 		}
 	}
 	
+	public void fromZipToName(){
+		cleanMessages();
+		try (InputStream inputStream = zipFile.getInputStream()) {
+			if (projectName == null || projectName.equals("")) {
+				String tmpName = zipFile.getSubmittedFileName();
+				projectName = tmpName.substring(0, tmpName.length() - 4);
+			}
+			if (revisionName == null || revisionName.equals("")) {
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
+				revisionName = sdf.format(new java.util.Date());
+			}
+			System.out.println("fromZiptoname");//test
+		} catch (Exception exc) {
+			logger.log(Level.SEVERE, "Error upload the zip file", exc);
+			addErrorMessage(exc);
+		}
+	}
+	
 	public void projectUpload() {
+		cleanMessages();
 		try {
 			saveZipFile();
 			/* Add the Project to DB */
@@ -89,8 +126,10 @@ public class ProjectController {
 		}
 	}
 	
+	
 	private void saveZipFile() throws Exception {
 		if (zipFile.getSize() == 0) {
+			zipFileMessage = "Please choose zip file.";
 			throw new Exception("The Zip File is empty."); 
 
 		}
@@ -234,6 +273,14 @@ public class ProjectController {
 
 	public void setFinalMessage(String finalMessage) {
 		this.finalMessage = finalMessage;
+	}
+
+	public String getZipFileMessage() {
+		return zipFileMessage;
+	}
+
+	public void setZipFileMessage(String zipFileMessage) {
+		this.zipFileMessage = zipFileMessage;
 	}
 	
 	

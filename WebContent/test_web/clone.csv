@@ -1,1 +1,2 @@
-Fog Computing, P3-R2, P3-R2-F1, 25, 63, Music App, P2-R2, P2-R2-F2, 1, 56, D3, 0x142516
+Code Clones, P1-R7, CodeClonesDatabaseWebApp/src/edu/wm/as/cs/codeclones/controller/EvaluationController.java, 25, 47, Music App, P2-R7, music_stream_schedule-master/predict_labeled.py, 10, 31
+Code Clones, P1-R8, CodeClonesDatabaseWebApp/src/edu/wm/as/cs/codeclones/controller/EvaluationController.java, 31, 67, Music App, P2-R8, music_stream_schedule-master/predict_labeled.py, 23, 51

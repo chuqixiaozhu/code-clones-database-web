@@ -8,9 +8,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import edu.wm.as.cs.codeclones.dao.UserDao;
+import edu.wm.as.cs.codeclones.entities.WebUser;
+
 //import edu.wm.as.cs.codeclones.dao.UserDao;
 //import edu.wm.as.cs.codeclones.entities.User;
-/*
+
 @ManagedBean
 @SessionScoped
 public class UserController {
@@ -19,6 +22,8 @@ public class UserController {
 	
 	private String userName;
 	private String password;
+	private String path = "/CodeClonesDatabaseWebApp/";
+	
 //	private String userType;
 	
 	public UserController () throws Exception {
@@ -34,23 +39,33 @@ public class UserController {
 	
 	public String validateUser() {
 		logger.info("logging in user name: " + userName);
-//		System.out.println("Controller cloneID: " + cloneID);//test
+		
 		try {
-			String userType = userDao.validateUserByNamePassword(userName, password);
-			if (userType.equals("Administrator")) {
-				return "clones_list";
-			} else if (userType.equals("Contributor")) {
-				return "clones_list_contributor";
-			} else if (userType.equals("Evaluator")) {
-				return "clones_list_evaluator";
-			} else {
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_WARN,
-								"Incorrect Username and Passowrd",
-								"Please enter correct username and Password"));
+			UserDao userDao = new UserDao();
+			WebUser user = userDao.validateUser(userName, password);
+			if (user == null) {
 				return null;
+			} else {
+				return "clones_list";
 			}
+		
+//		System.out.println("Controller cloneID: " + cloneID);//test
+//		try {
+//			String userType = userDao.validateUserByNamePassword(userName, password);
+//			if (userType.equals("Administrator")) {
+//				return "clones_list";
+//			} else if (userType.equals("Contributor")) {
+//				return "clones_list_contributor";
+//			} else if (userType.equals("Evaluator")) {
+//				return "clones_list_evaluator";
+//			} else {
+//				FacesContext.getCurrentInstance().addMessage(
+//						null,
+//						new FacesMessage(FacesMessage.SEVERITY_WARN,
+//								"Incorrect Username and Passowrd",
+//								"Please enter correct username and Password"));
+//				return null;
+//			}
 		} catch (Exception exc) {
 			// send this to server logs
 			logger.log(Level.SEVERE, "Error adding students", exc);
@@ -63,12 +78,13 @@ public class UserController {
 	}
 	
 	public String logout(){
-		try{
-			userDao = UserDao.getInstance();
-			return userDao.logout();
-		} catch (Exception exc) {
-			return "index";
-		}
+//		try{
+//			UserDao userDao = new UserDao();
+//			return userDao.logout();
+//		} catch (Exception exc) {
+//			return "index";
+//		}
+		return "index";
 	}
 
 	public String getUserName() {
@@ -86,6 +102,13 @@ public class UserController {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	public String getPath() {
+		return path;
+	}
 	
 }
-*/

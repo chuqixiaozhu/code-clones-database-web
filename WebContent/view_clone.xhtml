@@ -8,7 +8,22 @@
 
 <h:head>
 	<title>Code Clone View</title>
+	<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=desert"></script>
+	<style>
+	li.L0, li.L1, li.L2, li.L3,
+	li.L5, li.L6, li.L7, li.L8
+	{ list-style-type: decimal !important }
+	/*.prettyprint ol.linenums > li:nth-child(21) {
+		background-color: grey
+	}*/
+	pre {
+		width: 400px;
+		height: 300px;
+		overflow-x:scroll;
+	}
+	</style>
 </h:head>
+
 <h:body>
 <h2>Code Clone View</h2>
 <h:form>
@@ -21,13 +36,22 @@
 
 <h:form>
 <p><h:outputLabel for="twoFilesPanelGrid" value="Code Fragments:" /></p>
-<!-- <h:panelGrid id="twoFilesPanelGrid" columns="3" border="1">
+<h:panelGrid id="twoFilesPanelGrid" columns="3" border="0">
 	
-<pre>#{evaluationController.codeFragment1}</pre>
-	<h:panelGrid />
-<pre>#{evaluationController.codeFragment2}</pre>
+<pre class="prettyprint linenums" >
+<code>
+#{evaluationController.fragment1}
+</code>
+</pre>
 
-</h:panelGrid> -->
+<h:panelGrid />
+	
+<pre class="prettyprint linenums">
+<code>
+#{evaluationController.fragment2}
+</code>
+</pre>
+</h:panelGrid>
 
 <p><h:outputLabel for="theClonePanelGrid" value="Code Clone Information:" /></p>
 <h:panelGrid id="theClonePanelGrid" columns="10" border="1">
@@ -68,6 +92,26 @@
 
 <p><h:outputLabel for="evaluationPanelGrid" value="Evaluation History:"/></p>
 
+<h:panelGrid id="evaluationPanelGrid" columns="8" border="1">
+	<h:outputText value="# Type 1"/>
+	<h:outputText value="# Type 2"/>
+	<h:outputText value="# Type 3"/>
+	<h:outputText value="# Type 4"/>
+	<h:outputText value="Mean Similarity"/>
+	<h:outputText value="# True Positive"/>
+	<h:outputText value="# False Positive"/>
+	<h:outputText value="Mean Score"/>
+	
+	<h:outputText value="#{evaluationController.type1Num}"/>
+	<h:outputText value="#{evaluationController.type2Num}"/>
+	<h:outputText value="#{evaluationController.type3Num}"/>
+	<h:outputText value="#{evaluationController.type4Num}"/>
+	<h:outputText value="#{evaluationController.similarityMean}"/>
+	<h:outputText value="#{evaluationController.truePositiveNum}"/>
+	<h:outputText value="#{evaluationController.falseaPositiveNum}"/>
+	<h:outputText value="#{evaluationController.scoreMean}"/>
+</h:panelGrid>
+
 <h:dataTable id="evaluationsDataTable" border="1"
 			value="#{evaluationController.evaluations}" var="tempEvaluation">
 	<h:column>
@@ -90,31 +134,13 @@
 		<f:facet name="header"></f:facet>
 		<h:commandLink value="Delete" 
 				action="#{evaluationController.deleteEvaluation(tempEvaluation.evaluationID)}">
-				<f:ajax execute="@form" 
-					render="@form"/>
+<!-- 				onclick="prettyPrint();" type="submit"> -->
+<!-- 				<f:ajax render="evaluationsDataTable evaluationPanelGrid"/> -->
+<!-- 					render="@form"/> -->
+<!-- 					<f:ajax execute="@form" render="@form"/> -->
 		</h:commandLink>
 	</h:column>
 </h:dataTable>
-
-<h:panelGrid id="evaluationPanelGrid" columns="8" border="1">
-	<h:outputText value="# Type 1"/>
-	<h:outputText value="# Type 2"/>
-	<h:outputText value="# Type 3"/>
-	<h:outputText value="# Type 4"/>
-	<h:outputText value="Mean Similarity"/>
-	<h:outputText value="# True Positive"/>
-	<h:outputText value="# False Positive"/>
-	<h:outputText value="Mean Score"/>
-	
-	<h:outputText value="#{evaluationController.type1Num}"/>
-	<h:outputText value="#{evaluationController.type2Num}"/>
-	<h:outputText value="#{evaluationController.type3Num}"/>
-	<h:outputText value="#{evaluationController.type4Num}"/>
-	<h:outputText value="#{evaluationController.similarityMean}"/>
-	<h:outputText value="#{evaluationController.truePositiveNum}"/>
-	<h:outputText value="#{evaluationController.falseaPositiveNum}"/>
-	<h:outputText value="#{evaluationController.scoreMean}"/>
-</h:panelGrid>
 
 <p><h:outputLabel for="evaluatingPanelGrid" value="Evaluating:"/></p>
 <h:panelGrid id="evaluatingPanelGrid" columns="3">
@@ -133,7 +159,7 @@
 	<h:panelGrid />
 	<h:commandButton value="Submit" 
 			action="#{evaluationController.submitEvaluation}">
-			<f:ajax execute="evaluationPanelGrid evaluatingPanelGrid" 
+			<f:ajax  execute="evaluationPanelGrid evaluatingPanelGrid"
 					render="evaluationsDataTable evaluationPanelGrid"/>
 	</h:commandButton>
 	<h:panelGrid />

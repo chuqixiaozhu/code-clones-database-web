@@ -24,12 +24,15 @@
 
 <h:head>
 	<title>Code Clones Database System</title>
+	<h:outputStylesheet library="css" name="style_demo.css"/>
 </h:head>
 
 <h:body>
 <h1>Code Clones List</h1>
 <h:form>
 <p><h:commandLink value="Log out" action="#{userController.logout}"/></p>
+<p><h:commandLink value="Add Project" action="#{projectController.addProjectCommandLink}" /></p>
+<p><h:commandLink value="Add Clone" action="#{cloneController.addCloneCommandLink}" /></p>
 </h:form>
 <hr/>
 <h:form>
@@ -89,12 +92,15 @@
 
 <h:panelGrid columns="2">
 <h:commandButton id="showCommandButton" value="Show" 
-	action="#{cloneViewController.loadCloneTable}"/>
-<!-- <h:button id="addButton" value="Add"  -->
-<!-- 	outcome="upload"/> -->
+						action="#{cloneViewController.loadCloneTable}"
+						styleClass="demo-button"/>
+
 </h:panelGrid>
 <h:dataTable id="cloneDataTable"
-			value="#{cloneViewController.cloneViews}" var="tempClone">
+			value="#{cloneViewController.cloneViews}" var="tempClone"
+			styleClass="demo-table"
+			headerClass="demo-table-header"
+			rowClasses="demo-table-odd-row,demo-table-even-row">
 	<h:column>
 		<f:facet name="header">Project 1</f:facet>
 		#{tempClone.project1Name}

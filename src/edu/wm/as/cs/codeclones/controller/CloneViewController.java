@@ -63,6 +63,11 @@ public class CloneViewController {
 		loadCloneViews();
 	}
 	
+	public String preload() {
+		loadCloneViews();
+		return "clones_list";
+	}
+	
 	public void loadProjectNames() {
 		try {
 			CloneDao cloneDao = new CloneDao();

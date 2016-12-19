@@ -1,7 +1,10 @@
 package edu.wm.as.cs.codeclones.controller;
 
+//import java.io.BufferedReader;
+//import java.io.FileReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -57,9 +60,11 @@ public class EvaluationController {
 	
 	public EvaluationController() {
 		theEvaluation = new Evaluation();
+		evaluations = new ArrayList<>();
 	}
 	
 	public String viewClone(int cloneID) {
+		theEvaluation = new Evaluation();
 		try {
 			/* Clone Info. */
 			loadClone(cloneID);
@@ -70,7 +75,7 @@ public class EvaluationController {
 			loadDetector(detectorID);
 			/* Evaluation history */
 			loadEvaluations(cloneID);
-			/* Code Fragment2 */
+			/* Code Fragments */
 			loadFragments(cloneID);
 		} catch (Exception exc) {
 			logger.log(Level.SEVERE, "Error view code clones", exc);
@@ -145,6 +150,7 @@ public class EvaluationController {
 	}
 	
 	private void loadEvaluations(int cloneID) {
+		evaluations.clear();
 		try {
 			EvaluationDao evaluationDao = new EvaluationDao();
 			type1Num = evaluationDao.getType1NumByCloneID(cloneID);
@@ -172,8 +178,26 @@ public class EvaluationController {
 //		int endLine2 = theClone.getEndLine2();
 		fragment1 = "";
 		fragment2 = "";
+//		try (BufferedReader br = new BufferedReader(new FileReader(filePath1))) {
+//			String line;
+//			while ((line = br.readLine()) != null) {
+//				fragment1 += line + "\n";
+//			}
+//		} catch (Exception exc) {
+//			logger.log(Level.SEVERE, "Error load fragment 1", exc);
+//			addErrorMessage(exc);
+//		}
+//		try (BufferedReader br = new BufferedReader(new FileReader(filePath2))) {
+//			String line;
+//			while ((line = br.readLine()) != null) {
+//				fragment2 += line + "\n";
+//			}
+//		} catch (Exception exc) {
+//			logger.log(Level.SEVERE, "Error load fragment 2", exc);
+//			addErrorMessage(exc);
+//		}
 		try (Scanner sc = new Scanner(Paths.get(filePath1))) {
-			while (sc.hasNext()) {
+			while (sc.hasNextLine()) {
 				fragment1 += sc.nextLine() + "\n";
 			}
 		} catch (Exception exc) {
@@ -182,7 +206,7 @@ public class EvaluationController {
 		}
 		
 		try (Scanner sc = new Scanner(Paths.get(filePath2))) {
-			while (sc.hasNext()) {
+			while (sc.hasNextLine()) {
 				fragment2 += sc.nextLine() + "\n";
 			}
 		} catch (Exception exc) {

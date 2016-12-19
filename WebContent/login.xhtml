@@ -1,7 +1,12 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
 <head>
-  <meta charset="utf-8"/>
+<!--   <meta charset="utf-8"/> -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
   <title>AdminLTE 2 | Log in</title>
   <!-- Tell the browser to be responsive to screen width -->
@@ -27,19 +32,22 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="clones_list.xhtml"><b>Admin</b>LTE</a>
+    <a href="clones_list.xhtml"><b>Code Clones<br/>Database System</b></a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
     <p class="login-box-msg">Sign in to start your session</p>
 
-    <form action="index2.html" method="post">
+    <!-- <form action="index2.html" method="post"> -->
+    <h:form>
       <div class="form-group has-feedback">
-        <input type="email" class="form-control" placeholder="Email"/>
+        <!-- <input type="email" class="form-control" placeholder="Email"/> -->
+        <h:inputText id="username" value="#{userController.userName}" class="form-control"/>
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Password"/>
+        <!-- <input type="password" class="form-control" placeholder="Password"/> -->
+        <h:inputSecret id="password" value="#{userController.password}" class="form-control"/>
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="row">
@@ -52,19 +60,22 @@
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+          	<h:commandButton action="#{userController.validateUser}"
+				value="Login"
+				class="btn btn-primary btn-block btn-flat"/>
         </div>
         <!-- /.col -->
       </div>
-    </form>
+    </h:form>
+    <!-- </form> -->
 
-    <div class="social-auth-links text-center">
+<!--     <div class="social-auth-links text-center">
       <p>- OR -</p>
       <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign in using
         Facebook</a>
       <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign in using
         Google+</a>
-    </div>
+    </div> -->
     <!-- /.social-auth-links -->
 
     <a href="#">I forgot my password</a><br/>

@@ -42,6 +42,7 @@ public class ProjectController {
 	private Part csvFile;
 	private String projectName;
 	private String revisionName;
+	private String revisionNameMessage;
 	private String zipFileMessage;
 	private String finalMessage;
 	
@@ -61,26 +62,32 @@ public class ProjectController {
 		revisionName = "";
 		zipFileMessage = "";
 		finalMessage = "";
+		revisionNameMessage = "";
 		return "upload_project";
 	}
 	
 	private void cleanMessages() {
 		zipFileMessage = "";
 		finalMessage = "";
+		revisionNameMessage = "";
 	}
 	
-	public void isRevisionNameValid(FacesContext context, 
-			  UIComponent component, 
-			  Object value) throws Exception {
-		if (value == null) {
-			return;
-		}
-		String revisionName = value.toString();
+//	public void isRevisionNameValid(FacesContext context, 
+//			  UIComponent component, 
+//			  Object value) throws Exception {
+//		if (value == null) {
+//			return;
+//		}
+	private Boolean isRevisionNameValid() throws Exception {
 		RevisionDao revisionDao = new RevisionDao();
 		Revision revision = revisionDao.getRevisionByName(revisionName);
 		if (revision != null) {
-			FacesMessage message = new FacesMessage("Revision name exists. Please change it.");
-			throw new ValidatorException(message);
+			revisionNameMessage = "The Revision name already exists. Please change it.";
+			throw new Exception("The Revision name already exists. Please change it.");
+//			return false;
+		} else {
+			revisionNameMessage = "";
+			return true;
 		}
 	}
 	
@@ -106,6 +113,7 @@ public class ProjectController {
 		cleanMessages();
 		try {
 			saveZipFile();
+			isRevisionNameValid();
 			/* Add the Project to DB */
 			ProjectDao projectDao = new ProjectDao();
 			Project project = projectDao.getProjectByName(projectName);
@@ -281,6 +289,14 @@ public class ProjectController {
 
 	public void setZipFileMessage(String zipFileMessage) {
 		this.zipFileMessage = zipFileMessage;
+	}
+
+	public String getRevisionNameMessage() {
+		return revisionNameMessage;
+	}
+
+	public void setRevisionNameMessage(String revisionNameMessage) {
+		this.revisionNameMessage = revisionNameMessage;
 	}
 	
 	
